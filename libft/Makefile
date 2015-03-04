@@ -6,7 +6,7 @@
 #    By: rserban <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/05 16:45:03 by rserban           #+#    #+#              #
-#    Updated: 2015/03/04 18:10:32 by rserban          ###   ########.fr        #
+#    Updated: 2015/03/04 18:35:51 by rserban          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRC = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memmove.c ft_memchr.c \
 	  ft_putendl.c ft_putnbr.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c \
 	  ft_putnbr_fd.c \
 	  ft_lstnew.c ft_lstdelone.c ft_lstdel.c ft_lstadd.c ft_lstiter.c ft_lstmap.c \
-	  ft_lstadd_end.c get_next_line.c
+	  ft_lstadd_end.c get_next_line.c ft_atoidouble.c
 OBJ = $(SRC:.c=.o)
 HEADER = libft.h
 
@@ -34,9 +34,9 @@ $(NAME):
 	@ar rc $(NAME) $(OBJ)
 	
 clean:
-	/bin/rm -f $(OBJ)
+	@/bin/rm -f $(OBJ)
 
 fclean: clean
-	/bin/rm -f $(NAME)
+	@/bin/rm -f $(NAME)
 
 re: fclean all

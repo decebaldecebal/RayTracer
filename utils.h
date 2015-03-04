@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 16:11:15 by rserban           #+#    #+#             */
-/*   Updated: 2015/01/29 10:12:59 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/04 18:13:49 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,13 @@ typedef struct	s_ray
 	t_vec3 *ori;
 	t_vec3 *dir;
 }				t_ray;
+
+typedef struct	s_camera
+{
+	t_vec3 *campos;
+	t_vec3 *camdir;
+	t_vec3 *camright;
+	t_vec3 *camdown;
+}				t_camera;
 
 #endif

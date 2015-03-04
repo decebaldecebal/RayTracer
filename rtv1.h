@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:32:23 by rserban           #+#    #+#             */
-/*   Updated: 2015/02/14 14:49:24 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/04 18:49:26 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,13 @@
 
 typedef struct	s_win
 {
-	float	x1;
-	float	x2;
-	float	y1;
-	float	y2;
-	float	dx;
-	float	dy;
+	float		x1;
+	float		x2;
+	float		y1;
+	float		y2;
+	float		dx;
+	float		dy;
+	t_camera	*cam;
 }				t_win;
 
 typedef struct	s_env
@@ -46,9 +47,12 @@ typedef struct	s_env
 	t_vec3	*ori;
 	t_ray	*ray;
 	t_obj	**objs;
+	t_light	**lights;
 }				t_env;
 
 void			draw_scene(t_env *e, int x, int y, float sx);
+
+void			read_file(t_env *e, char *file);
 
 t_obj			*new_object(t_shape type, t_vec3 *normal, void *object,
 		t_mat *mat);
@@ -56,6 +60,9 @@ t_plane			*new_plane(float d);
 t_sphere		*new_sphere(float radius, int light);
 t_cylinder		*new_cylinder(t_vec3 *dir, float radius, float length);
 t_cone			*new_cone(t_vec3 *dir, float angle);
+
+t_camera		*new_camera(t_vec3 *campos, t_vec3 *lookat);
+t_light			*new_light(t_vec3 *pos, t_color color);
 
 int				intersect_primitive(t_obj *obj, t_ray *ray, float *dist);
 

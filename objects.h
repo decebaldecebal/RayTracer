@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 13:04:36 by rserban           #+#    #+#             */
-/*   Updated: 2015/02/14 14:47:28 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/04 18:22:00 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ typedef enum	e_shape
 	plane,
 	sphere,
 	cylinder,
-	cone
+	cone,
+	light
 }				t_shape;
 
 typedef struct	s_color
@@ -52,7 +53,6 @@ typedef struct	s_plane
 
 typedef struct	s_sphere
 {
-	int		light;
 	float	radius;
 	float	sqradius;
 }				t_sphere;
@@ -71,5 +71,11 @@ typedef struct	s_cone
 	float	cosp;
 	float	sinp;
 }				t_cone;
+
+typedef struct	s_light
+{
+	t_vec3	*pos;
+	t_color	color;
+}				t_light;
 
 #endif

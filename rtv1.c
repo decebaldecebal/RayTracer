@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:34:22 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/04 17:47:31 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/04 18:49:57 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,31 +70,35 @@ static void		init_scene(t_env *e)
 			new_sphere(0.1f, 1), new_material(&c, 0));
 	set_color(&c, 200, 0, 0);
 	e->objs[7] = new_object(cylinder, create_vector(9, -1, 3), new_cylinder(
-			create_vector(-0.3f, 1, 0), 0.8f, 2), new_material(&c, 0.4f));
+				create_vector(-0.3f, 1, 0), 0.8f, 2), new_material(&c, 0.4f));
 	e->objs[8] = new_object(cone, create_vector(-2, 2, 2.2f), new_cone(
-			create_vector(0.4f, 1, 0), 15), new_material(&c, 0.8f));
+				create_vector(0.4f, 1, 0), 15), new_material(&c, 0.8f));
 }
 
-int				main(void)
+int				main(int ac, char **av)
 {
 	t_env	e;
 
-	e.objs = (t_obj **)malloc(sizeof(t_obj *) * NR_PRIMITIVES);
-	if (!e.objs)
-		mem_error();
-	init_scene(&e);
-	init_window(&e.view);
-	e.img = NULL;
-	e.color = (t_color *)malloc(sizeof(t_color));
-	if (!e.color)
-		mem_error();
-	e.mlx = mlx_init();
-	e.win = mlx_new_window(e.mlx, WIN_WIDTH, WIN_HEIGHT, "RTv1");
-	mlx_key_hook(e.win, &key_hook, &e);
-	ft_putstr("You can edit the scene in the file rtv1.c in the init_scene ");
-	ft_putstr("function.\nIf you add more objects, change the value of ");
-	ft_putendl("NR_PRIMITIVES in rtv1.h.");
-	draw_scene(&e, -1, -1, e.view.y1);
-	mlx_loop(e.mlx);
+	if (ac == 2)
+	{
+		e.objs = (t_obj **)malloc(sizeof(t_obj *) * NR_PRIMITIVES);
+		if (!e.objs)
+			mem_error();
+		read_file(&e, av[1]);
+		init_scene(&e);
+		init_window(&e.view);
+		e.img = NULL;
+		e.color = (t_color *)malloc(sizeof(t_color));
+		if (!e.color)
+			mem_error();
+		e.mlx = mlx_init();
+		e.win = mlx_new_window(e.mlx, WIN_WIDTH, WIN_HEIGHT, "RTv1");
+		mlx_key_hook(e.win, &key_hook, &e);
+		ft_putstr("You can edit the scene in the file rtv1.c in the init_scene ");
+		ft_putstr("function.\nIf you add more objects, change the value of ");
+		ft_putendl("NR_PRIMITIVES in rtv1.h.");
+		draw_scene(&e, -1, -1, e.view.y1);
+		mlx_loop(e.mlx);
+	}
 	return (0);
 }
