@@ -6,13 +6,13 @@
 /*   By: lmuresan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/01 20:04:40 by lmuresan          #+#    #+#             */
-/*   Updated: 2015/03/04 18:38:53 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/05 15:27:06 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	transform_double(float *a, int dec)
+void	transform_float(float *a, int dec)
 {
 	float n;
 
@@ -46,7 +46,7 @@ void	if_dot(const char **str, float *a, int *dec)
 	}
 }
 
-float	ft_at_double(const char *str)
+float	ft_atof(const char *str)
 {
 	float	a;
 	float	s;
@@ -67,7 +67,7 @@ float	ft_at_double(const char *str)
 			str++;
 		}
 		if_dot(&str, &a, &dec);
-		transform_double(&a, dec);
+		transform_float(&a, dec);
 		return (a * s);
 	}
 	return (0);

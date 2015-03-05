@@ -6,11 +6,11 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 12:28:41 by rserban           #+#    #+#             */
-/*   Updated: 2015/02/01 12:54:32 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/05 16:11:40 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "raytracer.h"
 
 void	mem_error(void)
 {
@@ -18,16 +18,25 @@ void	mem_error(void)
 	exit(-1);
 }
 
-t_ray	*new_ray(t_vec3 *ori, t_vec3 *dir)
+void	get_sx_sy(float *sx, float *sy, int x, int y)
 {
-	t_ray	*r;
-
-	r = (t_ray *)malloc(sizeof(t_ray));
-	if (!r)
-		mem_error();
-	r->ori = ori;
-	r->dir = dir;
-	return (r);
+	if (WIN_WIDTH > WIN_HEIGHT)
+	{
+		*sx = ((x + 0.5) / WIN_WIDTH) * ASPECT -
+			(((WIN_WIDTH - WIN_HEIGHT) / (float)WIN_HEIGHT) / 2);
+		*sy = ((WIN_HEIGHT - y) + 0.5) / WIN_HEIGHT;
+	}
+	else if (WIN_HEIGHT > WIN_WIDTH)
+	{
+		*sx = (x + 0.5) / (float)WIN_WIDTH;
+		*sy = (((WIN_HEIGHT - y) + 0.5) / WIN_HEIGHT) / ASPECT -
+			(((WIN_HEIGHT - WIN_WIDTH) / (float)WIN_WIDTH) / 2);
+	}
+	else
+	{
+		*sx = (x + 0.5) / WIN_WIDTH;
+		*sy = ((WIN_HEIGHT - y) + 0.5) / WIN_HEIGHT;
+	}
 }
 
 void	put_pixel_to_img(t_env *e, int x, int y, t_color *c)

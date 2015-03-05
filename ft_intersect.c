@@ -6,11 +6,11 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 17:17:22 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/04 18:04:42 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/05 15:20:09 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "raytracer.h"
 
 static int	intersect_plane(t_obj *p, t_ray *ray, float *dist)
 {

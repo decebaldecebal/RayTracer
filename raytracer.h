@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:32:23 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/04 18:49:26 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/05 17:29:59 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,42 +15,32 @@
 
 # define WIN_WIDTH 1280
 # define WIN_HEIGHT 720
+# define ASPECT WIN_WIDTH / WIN_HEIGHT
 
 # include "utils.h"
 # include "objects.h"
 # include "libft/libft.h"
 # include <mlx.h>
 # include <math.h>
+# include <fcntl.h>
 
 # define NR_PRIMITIVES 9
 # define PI 3.14159265359
 # define EPSILON 0.0001f
 
-typedef struct	s_win
-{
-	float		x1;
-	float		x2;
-	float		y1;
-	float		y2;
-	float		dx;
-	float		dy;
-	t_camera	*cam;
-}				t_win;
-
 typedef struct	s_env
 {
-	void	*mlx;
-	void	*win;
-	void	*img;
-	t_color	*color;
-	t_win	view;
-	t_vec3	*ori;
-	t_ray	*ray;
-	t_obj	**objs;
-	t_light	**lights;
+	void		*mlx;
+	void		*win;
+	void		*img;
+	t_color		*color;
+	t_ray		*ray;
+	t_obj		**objs;
+	t_light		**lights;
+	t_camera	*cam;
 }				t_env;
 
-void			draw_scene(t_env *e, int x, int y, float sx);
+void			draw_scene(t_env *e, int x, int y);
 
 void			read_file(t_env *e, char *file);
 
@@ -61,13 +51,15 @@ t_sphere		*new_sphere(float radius, int light);
 t_cylinder		*new_cylinder(t_vec3 *dir, float radius, float length);
 t_cone			*new_cone(t_vec3 *dir, float angle);
 
+t_ray			*new_ray(t_vec3 *ori, t_vec3 *dir);
+t_ray			*make_ray(t_env *e, float sx, float sy);
 t_camera		*new_camera(t_vec3 *campos, t_vec3 *lookat);
 t_light			*new_light(t_vec3 *pos, t_color color);
 
 int				intersect_primitive(t_obj *obj, t_ray *ray, float *dist);
 
 void			mem_error(void);
-t_ray			*new_ray(t_vec3 *ori, t_vec3 *dir);
+void			get_sx_sy(float *sx, float *sy, int x, int y);
 void			put_pixel_to_img(t_env *e, int x, int y, t_color *c);
 void			get_normal(t_vec3 *v, t_obj *o, t_vec3 *vec);
 float			solve_equation(float a, float b, float c);

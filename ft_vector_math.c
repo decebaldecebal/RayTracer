@@ -6,11 +6,11 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 17:58:19 by rserban           #+#    #+#             */
-/*   Updated: 2015/02/01 11:56:47 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/05 15:19:48 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "raytracer.h"
 
 t_vec3	*substract_vector(t_vec3 *v, t_vec3 *vec1, t_vec3 *vec2)
 {

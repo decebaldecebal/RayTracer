@@ -6,11 +6,11 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:49:07 by rserban           #+#    #+#             */
-/*   Updated: 2015/02/01 11:22:40 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/05 15:19:39 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "raytracer.h"
 
 t_vec3	*create_vector(float x, float y, float z)
 {

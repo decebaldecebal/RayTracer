@@ -6,11 +6,11 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 15:50:49 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/04 17:45:33 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/05 17:30:14 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "raytracer.h"
 
 static float	get_shade(t_env *e, t_obj *light, t_vec3 *l_norm, t_vec3 *pi)
 {
@@ -106,31 +106,27 @@ static void		ray_trace(t_env *e, float *dist)
 	}
 }
 
-void			draw_scene(t_env *e, int x, int y, float sy)
+void			draw_scene(t_env *e, int x, int y)
 {
-	t_vec3		dir;
 	float		dist;
+	float		sy;
 	float		sx;
 
 	while (++y < WIN_HEIGHT && (x = -1))
 	{
 		e->img = mlx_new_image(e->mlx, WIN_WIDTH, 1);
-		sx = e->view.x1;
 		while (++x < WIN_WIDTH)
 		{
 			set_color(e->color, 0, 0, 0);
-			substract_vector(&dir, new_vector(&dir, sx, sy, 0), e->ori);
-			norm_vector(&dir);
-			e->ray = new_ray(e->ori, &dir);
+			get_sx_sy(&sx, &sy, x, y);
+			e->ray = make_ray(e, sx, sy);
 			ray_trace(e, &dist);
 			put_pixel_to_img(e, x, 0, e->color);
 			if (e->ray)
 				free(e->ray);
-			sx += e->view.dx;
 		}
 		mlx_put_image_to_window(e->mlx, e->win, e->img, 0, y);
 		free(e->img);
 		e->img = NULL;
-		sy += e->view.dy;
 	}
 }

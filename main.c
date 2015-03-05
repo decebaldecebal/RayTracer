@@ -6,11 +6,11 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:34:22 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/04 18:49:57 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/05 17:29:10 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "raytracer.h"
 
 static t_mat	*new_material(t_color *c, float diff)
 {
@@ -36,25 +36,14 @@ static int		key_hook(int key, t_env *e)
 	return (1);
 }
 
-static void		init_window(t_win *w)
-{
-	w->x1 = -(float)WIN_WIDTH / 200;
-	w->x2 = (float)WIN_WIDTH / 200;
-	w->y1 = (float)WIN_HEIGHT / 200;
-	w->y2 = -(float)WIN_HEIGHT / 200;
-	w->dx = (w->x2 - w->x1) / (float)WIN_WIDTH;
-	w->dy = (w->y2 - w->y1) / (float)WIN_HEIGHT;
-}
-
 static void		init_scene(t_env *e)
 {
 	t_color c;
 
-	e->ori = create_vector(-4, 2, -3);
 	set_color(&c, 100, 80, 80);
-	e->objs[0] = new_object(plane, create_vector(0, 1.4f, 0), new_plane(5.0f),
+	e->objs[0] = new_object(plane, create_vector(0, 1.0f, 0), new_plane(5.0f),
 			new_material(&c, 1.0f));
-	e->objs[1] = new_object(plane, create_vector(0.5f, 0, 0), new_plane(5.0f),
+	e->objs[1] = new_object(plane, create_vector(0.4f, 0, 0), new_plane(5.0f),
 			new_material(&c, 1.0f));
 	set_color(&c, 0, 170, 170);
 	e->objs[2] = new_object(sphere, create_vector(5, -1, 6),
@@ -86,7 +75,6 @@ int				main(int ac, char **av)
 			mem_error();
 		read_file(&e, av[1]);
 		init_scene(&e);
-		init_window(&e.view);
 		e.img = NULL;
 		e.color = (t_color *)malloc(sizeof(t_color));
 		if (!e.color)
@@ -97,7 +85,7 @@ int				main(int ac, char **av)
 		ft_putstr("You can edit the scene in the file rtv1.c in the init_scene ");
 		ft_putstr("function.\nIf you add more objects, change the value of ");
 		ft_putendl("NR_PRIMITIVES in rtv1.h.");
-		draw_scene(&e, -1, -1, e.view.y1);
+		draw_scene(&e, -1, -1);
 		mlx_loop(e.mlx);
 	}
 	return (0);

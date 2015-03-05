@@ -6,11 +6,11 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:53:35 by rserban           #+#    #+#             */
-/*   Updated: 2015/02/14 14:48:48 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/05 15:53:37 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "raytracer.h"
 
 t_obj		*new_object(t_shape type, t_vec3 *normal, void *object, t_mat *mat)
 {

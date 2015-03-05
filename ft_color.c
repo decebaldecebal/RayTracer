@@ -6,11 +6,11 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/28 16:53:30 by rserban           #+#    #+#             */
-/*   Updated: 2015/01/31 13:07:05 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/05 15:19:30 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "raytracer.h"
 
 void	check_color(t_color *c)
 {

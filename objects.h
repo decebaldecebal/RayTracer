@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 13:04:36 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/04 18:22:00 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/05 15:21:50 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct	s_plane
 
 typedef struct	s_sphere
 {
+	int		light;
 	float	radius;
 	float	sqradius;
 }				t_sphere;
