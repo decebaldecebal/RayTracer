@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:32:23 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/07 15:07:51 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/07 16:42:53 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,20 @@ typedef struct	s_env
 }				t_env;
 
 /*
-** read_file1.c
+** main.c
+*/
+t_mat			*new_material(t_color *c, float diff);
+
+/*
+** ft_read_file.c
 */
 void			read_file(t_env *e, char *file);
+
+/*
+** ft_read_objects.
+*/
+void			read_planes(int f, t_env *e, char **line, int *i);
+void			read_spheres(int f, t_env *e, char **line, int *i);
 
 /*
 ** ft_draw.c
@@ -56,7 +67,7 @@ void			draw_scene(t_env *e, int x, int y);
 t_obj			*new_object(t_shape type, t_vec3 *normal, void *object,
 		t_mat *mat);
 t_plane			*new_plane(float d);
-t_sphere		*new_sphere(float radius, int light);
+t_sphere		*new_sphere(float radius);
 t_cylinder		*new_cylinder(t_vec3 *dir, float radius, float length);
 t_cone			*new_cone(t_vec3 *dir, float angle);
 

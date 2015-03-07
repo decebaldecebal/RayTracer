@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:53:35 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/05 15:53:37 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/07 16:26:09 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_plane		*new_plane(float d)
 	return (plane);
 }
 
-t_sphere	*new_sphere(float radius, int light)
+t_sphere	*new_sphere(float radius)
 {
 	t_sphere *sphere;
 
@@ -45,7 +45,6 @@ t_sphere	*new_sphere(float radius, int light)
 	if (!sphere)
 		mem_error();
 	sphere->radius = radius;
-	sphere->light = light;
 	sphere->sqradius = radius * radius;
 	return (sphere);
 }

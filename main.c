@@ -6,13 +6,13 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:34:22 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/07 15:10:58 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/07 16:43:39 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raytracer.h"
 
-static t_mat	*new_material(t_color *c, float diff)
+t_mat	*new_material(t_color *c, float diff)
 {
 	t_mat *mat;
 
@@ -40,25 +40,6 @@ static void		init_scene(t_env *e)
 {
 	t_color c;
 
-	set_color(&c, 100, 80, 80);
-	e->objs[0] = new_object(plane, create_vector(0, 1.0f, 0), new_plane(5.0f),
-			new_material(&c, 1.0f));
-	e->objs[1] = new_object(plane, create_vector(0.4f, 0, 0), new_plane(5.0f),
-			new_material(&c, 1.0f));
-	set_color(&c, 0, 170, 170);
-	e->objs[2] = new_object(sphere, create_vector(5, -1, 6),
-			new_sphere(2.5f, 0), new_material(&c, 1.0f));
-	e->objs[3] = new_object(sphere, create_vector(-7, -2, 4),
-			new_sphere(1, 0), new_material(&c, 1.0f));
-	/*
-	set_color(&c, 180, 180, 180);
-	e->objs[4] = new_object(sphere, create_vector(0, 4.5f, 4.5f),
-			new_sphere(0.1f, 1), new_material(&c, 0));
-	e->objs[5] = new_object(sphere, create_vector(-5, 3.5f, 1),
-			new_sphere(0.1f, 1), new_material(&c, 0));
-	e->objs[6] = new_object(sphere, create_vector(5, 2, 2),
-			new_sphere(0.1f, 1), new_material(&c, 0));
-			*/
 	set_color(&c, 200, 0, 0);
 	e->objs[4] = new_object(cylinder, create_vector(9, -1, 3), new_cylinder(
 				create_vector(-0.3f, 1, 0), 0.8f, 2), new_material(&c, 0.4f));
@@ -72,10 +53,9 @@ int				main(int ac, char **av)
 
 	if (ac == 2)
 	{
-		e.objs = (t_obj **)malloc(sizeof(t_obj *) * NR_PRIMITIVES);
-		if (!e.objs)
-			mem_error();
 		read_file(&e, av[1]);
+		if (!e.objs || !e.lights)
+			mem_error();
 		init_scene(&e);
 		e.img = NULL;
 		e.color = (t_color *)malloc(sizeof(t_color));

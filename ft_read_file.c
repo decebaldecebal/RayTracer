@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/04 18:25:34 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/07 15:06:56 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/07 16:43:18 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ static void	read_lights(int f, t_env *e, char **line)
 	int		i;
 
 	i = 0;
-	while (get_next_line(f, line) > 0 &&
-			ft_strcmp(*line, "****") != 0)
+	while (get_next_line(f, line) > 0 && ft_strcmp(*line, "****"))
 	{
 		nums = ft_strsplit(*line, ' ');
 		if (!ft_strcmp(nums[0], "numbers:"))
@@ -67,10 +66,30 @@ static void	read_lights(int f, t_env *e, char **line)
 	e->lights[i] = NULL;
 }
 
+static void	read_objects_nb(t_env *e, char *line)
+{
+	char	**nums;
+	int		i;
+	int		n;
+
+	nums = ft_strsplit(line, ' ');
+	n = ft_atoi(nums[1]) + 1;
+	e->objs = (t_obj **)malloc(sizeof(t_obj *) * n);
+	if (!e->objs)
+		mem_error();
+	free_char_array(nums);
+	free(nums);
+	nums = NULL;
+	i = 0;
+	while (i < n)
+		e->objs[i++] = NULL;
+}
+
 void		read_file(t_env *e, char *file)
 {
 	char	*line;
 	int		f;
+	int		i;
 
 	f = open(file, O_RDONLY);
 	if (f < 0)
@@ -78,11 +97,18 @@ void		read_file(t_env *e, char *file)
 		ft_putstr("Can not read file.\n");
 		exit(0);
 	}
+	i = 0;
 	while (get_next_line(f, &line) > 0)
 	{
 		if (!ft_strcmp(line, "camera:"))
 			read_camera(f, e, &line);
 		else if (!ft_strcmp(line, "lights:"))
 			read_lights(f, e, &line);
+		else if (ft_strstr(line, "objects:"))
+			read_objects_nb(e, line);
+		else if (!ft_strcmp(line, "planes:"))
+			read_planes(f, e, &line, &i);
+		else if (!ft_strcmp(line, "spheres:"))
+			read_spheres(f, e, &line, &i);
 	}
 }
