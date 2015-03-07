@@ -6,13 +6,14 @@
 #    By: rserban <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/17 11:29:48 by rserban           #+#    #+#              #
-#    Updated: 2015/03/05 15:15:17 by rserban          ###   ########.fr        #
+#    Updated: 2015/03/07 15:37:59 by rserban          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = raytracer
 SRC = main.c ft_render.c ft_vector.c ft_utils.c ft_scene.c ft_scene2.c \
-	  ft_intersect.c ft_vector_math.c ft_color.c read_file1.c
+	  ft_intersect.c ft_vector_math.c ft_color.c ft_read_file.c \
+	  ft_read_objects.c ft_free.c
 OBJ = $(SRC:.c=.o)
 EXTRA = -L/usr/X11/lib -lmlx -lXext -lX11
 ARG = -Wextra -Wall -Werror

@@ -6,13 +6,13 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 15:50:49 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/05 17:30:14 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/07 15:29:57 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raytracer.h"
 
-static float	get_shade(t_env *e, t_obj *light, t_vec3 *l_norm, t_vec3 *pi)
+static float	get_shade(t_env *e, t_vec3 *l_norm, t_vec3 *pi)
 {
 	t_vec3	vec;
 	t_vec3	vec2;
@@ -27,16 +27,14 @@ static float	get_shade(t_env *e, t_obj *light, t_vec3 *l_norm, t_vec3 *pi)
 	i = 0;
 	while (i < NR_PRIMITIVES)
 	{
-		if (!(e->objs[i]->type == sphere && ((t_sphere *)(e->objs[i]->obj))
-			->light == 1) && e->objs[i] != light &&
-				intersect_primitive(e->objs[i], ray, &tdist))
+		if (intersect_primitive(e->objs[i], ray, &tdist))
 			return (0.0f);
 		i++;
 	}
 	return (1.0f);
 }
 
-static void		check_objects(t_env *e, t_obj *light, t_obj *obj, t_vec3 *pi)
+static void		check_objects(t_env *e, t_light *light, t_obj *obj, t_vec3 *pi)
 {
 	t_vec3	l_norm;
 	t_vec3	norm;
@@ -44,15 +42,15 @@ static void		check_objects(t_env *e, t_obj *light, t_obj *obj, t_vec3 *pi)
 	float	value;
 	float	shade;
 
-	substract_vector(&l_norm, light->normal, pi);
-	shade = get_shade(e, light, &l_norm, pi);
+	substract_vector(&l_norm, light->pos, pi);
+	shade = get_shade(e, &l_norm, pi);
 	norm_vector(&l_norm);
 	get_normal(&norm, obj, pi);
 	if (obj->mat->diff > 0 && shade > 0)
 	{
 		dot = vector_dot(&l_norm, &norm);
 		if (dot > 0 && (value = dot * obj->mat->diff))
-			set_color_mat(e->color, value, obj->mat->color, light->mat->color);
+			set_color_mat(e->color, value, obj->mat->color, light->color);
 	}
 	if (obj->mat->spec > 0 && shade > 0)
 	{
@@ -60,24 +58,21 @@ static void		check_objects(t_env *e, t_obj *light, t_obj *obj, t_vec3 *pi)
 			multiply_vector_value(&norm, &norm, 2.0f *
 			vector_dot(&l_norm, &norm))));
 		if (dot > 0 && (value = powf(dot, 20) * obj->mat->spec))
-			set_color_mat(e->color, value, obj->mat->color, light->mat->color);
+			set_color_mat(e->color, value, obj->mat->color, light->color);
 	}
 }
 
 static void		determine_color(t_env *e, t_obj *obj, float *dist)
 {
 	t_vec3	pi;
-	t_obj	*temp;
 	int		i;
 
 	add_vector(&pi, e->ray->ori, multiply_vector_value(&pi, e->ray->dir,
 		*dist));
 	i = 0;
-	while (i < NR_PRIMITIVES)
+	while (e->lights[i])
 	{
-		temp = e->objs[i];
-		if (temp->type == sphere && ((t_sphere *)temp->obj)->light == 1)
-			check_objects(e, temp, obj, &pi);
+		check_objects(e, e->lights[i], obj, &pi);
 		i++;
 	}
 }
@@ -97,13 +92,7 @@ static void		ray_trace(t_env *e, float *dist)
 		i++;
 	}
 	if (temp)
-	{
-		if (temp->type == sphere && ((t_sphere *)temp->obj)->light == 1)
-			set_color(e->color, temp->mat->color.r, temp->mat->color.g,
-					temp->mat->color.b);
-		else
-			determine_color(e, temp, dist);
-	}
+		determine_color(e, temp, dist);
 }
 
 void			draw_scene(t_env *e, int x, int y)

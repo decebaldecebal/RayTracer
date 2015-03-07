@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/04 18:17:20 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/05 17:29:40 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/07 15:04:25 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_camera	*new_camera(t_vec3 *campos, t_vec3 *lookat)
 	return (cam);
 }
 
-t_light		*new_light(t_vec3 *pos, t_color color)
+t_light		*new_light(t_vec3 *pos)
 {
 	t_light	*light;
 
@@ -71,8 +71,5 @@ t_light		*new_light(t_vec3 *pos, t_color color)
 	if (!light)
 		mem_error();
 	light->pos = pos;
-	light->color.r = color.r;
-	light->color.g = color.g;
-	light->color.b = color.b;
 	return (light);
 }
