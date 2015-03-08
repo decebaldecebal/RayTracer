@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:34:22 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/08 13:05:38 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 15:04:44 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ t_mat		*new_material(t_color *c, float diff, float refl)
 	mat->diff = diff;
 	mat->spec = 1.0f - diff;
 	mat->refl = refl;
+	mat->refr = 0.0f;
+	mat->refrind = 1.0f;
 	return (mat);
 }
 
@@ -60,7 +62,7 @@ int			main(int ac, char **av)
 		e.objs = NULL;
 		e.lights = NULL;
 		read_file(&e, av[1], 0, 0);
-		if (!e.objs || !e.lights)
+		if (!e.objs)
 			mem_error();
 		e.color = (t_color *)malloc(sizeof(t_color));
 		if (!e.color)

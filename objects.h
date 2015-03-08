@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 13:04:36 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/08 11:59:11 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 14:10:32 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct	s_mat
 	float		diff;
 	float		spec;
 	float		refl;
+	float		refr;
+	float		refrind;
 }				t_mat;
 
 typedef	struct	s_obj

@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 12:28:41 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/08 11:54:04 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 15:15:39 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	mem_error(void)
 	exit(-1);
 }
 
-void	get_sx_sy(float *sx, float *sy, int x, int y)
+void	get_sx_sy(float *sx, float *sy, float x, float y)
 {
 	if (WIN_WIDTH > WIN_HEIGHT)
 	{

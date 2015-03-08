@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:32:23 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/08 12:59:00 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 15:25:45 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@
 # define WIN_HEIGHT 720
 # define ASPECT WIN_WIDTH / WIN_HEIGHT
 
-# define TRACE_DEPTH 6
+# define TRACE_DEPTH 4
+# define AMB_LIGHT 0.4
 
 # define PI 3.14159265359
 # define EPSILON 0.0001f
@@ -69,14 +70,17 @@ t_mat			*read_material(int f, char **line);
 /*
 ** ft_render.c
 */
-void			ray_trace(t_env *e, int depth, float *dist);
+t_obj			*ray_trace(t_env *e, int depth, float refrind, float *dist);
 void			draw_scene(t_env *e, int x, int y);
 
 /*
-** ft_render.c
+** ft_render2.c
 */
 void			calculate_reflection(t_env *e, t_vec3 *pi, t_obj *temp,
 				int depth);
+void			calculate_refraction(t_env *e, t_vec3 *pi, t_obj *temp,
+				float par[2]);
+t_obj			*apply_supersampling(t_env *e, int x, int y, float *dist);
 
 /*
 ** ft_scene.c
@@ -105,7 +109,7 @@ int				intersect_primitive(t_obj *obj, t_ray *ray, float *dist);
 ** ft_utils.c
 */
 void			mem_error(void);
-void			get_sx_sy(float *sx, float *sy, int x, int y);
+void			get_sx_sy(float *sx, float *sy, float x, float y);
 void			put_pixel_to_img(t_env *e, int x, int y, int i);
 void			get_normal(t_vec3 *v, t_obj *o, t_vec3 *vec);
 float			solve_equation(float a, float b, float c);

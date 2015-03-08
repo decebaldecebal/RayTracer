@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 15:50:49 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/08 12:35:31 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 15:25:54 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,22 @@ static void		determine_color(t_env *e, t_vec3 *pi, t_obj *obj)
 	int		i;
 
 	i = 0;
-	while (e->lights[i])
+	while (e->lights && e->lights[i])
 	{
 		check_objects(e, e->lights[i], obj, pi);
 		i++;
 	}
+	if (i == 0)
+		set_color(e->color, obj->mat->color.r * AMB_LIGHT,
+			obj->mat->color.g * AMB_LIGHT, obj->mat->color.b * AMB_LIGHT);
 }
 
-void			ray_trace(t_env *e, int depth, float *dist)
+t_obj			*ray_trace(t_env *e, int depth, float refrind, float *dist)
 {
 	t_obj	*temp;
 	int		i;
 	t_vec3	pi;
+	float	refr[2];
 
 	set_color(e->color, 0, 0, 0);
 	temp = NULL;
@@ -98,7 +102,12 @@ void			ray_trace(t_env *e, int depth, float *dist)
 			*dist));
 		determine_color(e, &pi, temp);
 		calculate_reflection(e, &pi, temp, depth);
+		refr[0] = depth;
+		refr[1] = refrind;
+		//calculate_refraction(e, &pi, temp, refr);
+		return (temp);
 	}
+	return (NULL);
 }
 
 void			draw_scene(t_env *e, int x, int y)
@@ -106,7 +115,10 @@ void			draw_scene(t_env *e, int x, int y)
 	float		dist;
 	float		sy;
 	float		sx;
+	t_obj		*last_prim;
+	t_obj		*prim;
 
+	last_prim = NULL;
 	while (++y < WIN_HEIGHT && (x = -1))
 	{
 		e->img[y] = mlx_new_image(e->mlx, WIN_WIDTH, 1);
@@ -114,7 +126,12 @@ void			draw_scene(t_env *e, int x, int y)
 		{
 			get_sx_sy(&sx, &sy, x, y);
 			e->ray = make_ray(e, sx, sy);
-			ray_trace(e, 1, &dist);
+			prim = ray_trace(e, 1, 1.0f, &dist);
+			if (prim != last_prim)
+			{
+				last_prim = prim;
+				prim = apply_supersampling(e, x, y, &dist);
+			}
 			put_pixel_to_img(e, x, 0, y);
 			if (e->ray)
 				free(e->ray);

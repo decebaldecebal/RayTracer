@@ -13,9 +13,26 @@ color: 180 180 180
 pos: 5 2 2
 color: 180 180 180
 ****
-objects: 6
+objects: 8
 ****
 spheres:
+
+center: 2 -1 7
+radius: 0.5
+
+material:
+color: 255 0 0
+diffuse: 0.6
+reflection: 0
+**
+center: 10 -1 7
+radius: 0.5
+
+material:
+color: 0 0 255
+diffuse: 1
+reflection: 0
+**
 
 center: 5 -1 6
 radius: 2.5
@@ -23,7 +40,7 @@ radius: 2.5
 material:
 color: 0 170 170
 diffuse: 0.2
-reflection: 0.8
+reflection: 0
 **
 center: -7 -2 4
 radius: 1
@@ -40,14 +57,14 @@ normal: 0 1.0 0
 distance: 5
 
 material:
-color: 100 80 80
+color: 100 100 100
 diffuse: 1.0
 reflection: 0.8
 **
 normal: 0.4 0 0
 distance: 5
 material:
-color: 100 80 80
+color: 100 100 100
 diffuse: 0.8
 **
 
