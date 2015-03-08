@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 17:17:22 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/08 11:51:02 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 13:30:22 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,27 +73,8 @@ static int	intersect_cylinder(t_obj *o, t_ray *ray, float *dist)
 			(vector_dot(&vec2, &vec2) - temp->sqradius));
 	if (rslt != -1 && rslt < *dist)
 	{
-		if (temp->length != 0)
-		{
-			add_vector(&vec, ray->ori, multiply_vector_value(&vec, ray->dir,
-				rslt));
-			add_vector(&vec2, o->normal, multiply_vector_value(&vec2, temp->dir,
-				temp->length));
-			if (vector_dot(substract_vector(&vec2, &vec, o->normal),
-				temp->dir) <= temp->length
-				&& vector_dot(substract_vector(&vec2,
-				o->normal, &vec), temp->dir) <= temp->length)
-			{
-				*dist = rslt;
-				return (1);
-			}
-			return (0);
-		}
-		else
-		{
-			*dist = rslt;
-			return (1);
-		}
+		*dist = rslt;
+		return (1);
 	}
 	return (0);
 }

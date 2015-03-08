@@ -6,16 +6,12 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:32:23 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/08 11:41:42 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 12:59:00 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RAYTRACER_H
 # define RAYTRACER_H
-
-# define WIN_WIDTH 1280
-# define WIN_HEIGHT 720
-# define ASPECT WIN_WIDTH / WIN_HEIGHT
 
 # include "utils.h"
 # include "objects.h"
@@ -23,6 +19,12 @@
 # include <mlx.h>
 # include <math.h>
 # include <fcntl.h>
+
+# define WIN_WIDTH 1280
+# define WIN_HEIGHT 720
+# define ASPECT WIN_WIDTH / WIN_HEIGHT
+
+# define TRACE_DEPTH 6
 
 # define PI 3.14159265359
 # define EPSILON 0.0001f
@@ -42,7 +44,7 @@ typedef struct	s_env
 /*
 ** main.c
 */
-t_mat			*new_material(t_color *c, float diff);
+t_mat			*new_material(t_color *c, float diff, float refl);
 
 /*
 ** ft_read_file.c
@@ -51,7 +53,7 @@ void			read_file(t_env *e, char *file, int f, int i);
 int				populate_array(char *line, char ***nums);
 
 /*
-** ft_read_objects.
+** ft_read_objects.c
 */
 void			read_planes(int f, t_env *e, char **line, int *i);
 void			read_spheres(int f, t_env *e, char **line, int *i);
@@ -59,9 +61,22 @@ void			read_cylinders(int f, t_env *e, char **line, int *i);
 void			read_cones(int f, t_env *e, char **line, int *i);
 
 /*
-** ft_draw.c
+** ft_read_utils.c
 */
+t_vec3			*get_vector(char **nums);
+t_mat			*read_material(int f, char **line);
+
+/*
+** ft_render.c
+*/
+void			ray_trace(t_env *e, int depth, float *dist);
 void			draw_scene(t_env *e, int x, int y);
+
+/*
+** ft_render.c
+*/
+void			calculate_reflection(t_env *e, t_vec3 *pi, t_obj *temp,
+				int depth);
 
 /*
 ** ft_scene.c

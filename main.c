@@ -6,13 +6,13 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:34:22 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/08 11:53:12 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 13:05:38 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raytracer.h"
 
-t_mat		*new_material(t_color *c, float diff)
+t_mat		*new_material(t_color *c, float diff, float refl)
 {
 	t_mat *mat;
 
@@ -24,6 +24,7 @@ t_mat		*new_material(t_color *c, float diff)
 	mat->color.b = c->b;
 	mat->diff = diff;
 	mat->spec = 1.0f - diff;
+	mat->refl = refl;
 	return (mat);
 }
 

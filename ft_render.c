@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 15:50:49 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/08 11:38:31 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 12:35:31 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static float	get_shade(t_env *e, t_vec3 *l_norm, t_vec3 *pi)
 			return (0.0f);
 		i++;
 	}
+	if (ray)
+		free(ray);
 	return (1.0f);
 }
 
@@ -62,26 +64,25 @@ static void		check_objects(t_env *e, t_light *light, t_obj *obj, t_vec3 *pi)
 	}
 }
 
-static void		determine_color(t_env *e, t_obj *obj, float *dist)
+static void		determine_color(t_env *e, t_vec3 *pi, t_obj *obj)
 {
-	t_vec3	pi;
 	int		i;
 
-	add_vector(&pi, e->ray->ori, multiply_vector_value(&pi, e->ray->dir,
-		*dist));
 	i = 0;
 	while (e->lights[i])
 	{
-		check_objects(e, e->lights[i], obj, &pi);
+		check_objects(e, e->lights[i], obj, pi);
 		i++;
 	}
 }
 
-static void		ray_trace(t_env *e, float *dist)
+void			ray_trace(t_env *e, int depth, float *dist)
 {
 	t_obj	*temp;
 	int		i;
+	t_vec3	pi;
 
+	set_color(e->color, 0, 0, 0);
 	temp = NULL;
 	*dist = 1000000.0f;
 	i = 0;
@@ -92,7 +93,12 @@ static void		ray_trace(t_env *e, float *dist)
 		i++;
 	}
 	if (temp)
-		determine_color(e, temp, dist);
+	{
+		add_vector(&pi, e->ray->ori, multiply_vector_value(&pi, e->ray->dir,
+			*dist));
+		determine_color(e, &pi, temp);
+		calculate_reflection(e, &pi, temp, depth);
+	}
 }
 
 void			draw_scene(t_env *e, int x, int y)
@@ -106,10 +112,9 @@ void			draw_scene(t_env *e, int x, int y)
 		e->img[y] = mlx_new_image(e->mlx, WIN_WIDTH, 1);
 		while (++x < WIN_WIDTH)
 		{
-			set_color(e->color, 0, 0, 0);
 			get_sx_sy(&sx, &sy, x, y);
 			e->ray = make_ray(e, sx, sy);
-			ray_trace(e, &dist);
+			ray_trace(e, 1, &dist);
 			put_pixel_to_img(e, x, 0, y);
 			if (e->ray)
 				free(e->ray);
