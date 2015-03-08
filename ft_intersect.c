@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 17:17:22 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/05 15:20:09 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 11:51:02 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,6 @@ static int	intersect_cylinder(t_obj *o, t_ray *ray, float *dist)
 				temp->dir) <= temp->length
 				&& vector_dot(substract_vector(&vec2,
 				o->normal, &vec), temp->dir) <= temp->length)
-			/*
-			if (vector_dot(temp->dir, substract_vector(&vec, &vec, o->normal)) > 0
-				&& vector_dot(temp->dir, substract_vector(&vec2, &vec, &vec2)) < 0)
-				*/
 			{
 				*dist = rslt;
 				return (1);
@@ -139,7 +135,7 @@ int			intersect_primitive(t_obj *obj, t_ray *ray, float *dist)
 		result = intersect_plane(obj, ray, dist);
 	else if (obj->type == sphere)
 		result = intersect_sphere(obj, ray, dist);
-	else if (obj->type == cylinder)
+	else if (obj->type == cyl)
 		result = intersect_cylinder(obj, ray, dist);
 	else if (obj->type == cone)
 		result = intersect_cone(obj, ray, dist);

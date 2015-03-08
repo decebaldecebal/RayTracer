@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 13:04:36 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/07 16:26:22 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 11:50:45 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ typedef enum	e_shape
 {
 	plane,
 	sphere,
-	cylinder,
+	cyl,
 	cone,
 	light
 }				t_shape;

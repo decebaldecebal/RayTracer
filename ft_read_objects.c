@@ -6,13 +6,19 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/07 15:30:24 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/08 11:30:26 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 11:52:08 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raytracer.h"
 
-void		read_planes(int f, t_env *e, char **line, int *i)
+static t_vec3	*get_vector(char **nums)
+{
+	return (create_vector(ft_atof(nums[1]), ft_atof(nums[2]),
+	ft_atof(nums[3])));
+}
+
+void			read_planes(int f, t_env *e, char **line, int *i)
 {
 	char	**nums;
 	t_color	color;
@@ -22,8 +28,7 @@ void		read_planes(int f, t_env *e, char **line, int *i)
 		if (populate_array(*line, &nums))
 		{
 			if (!ft_strcmp(nums[0], "normal:"))
-				e->objs[*i] = new_object(plane, create_vector(ft_atof(nums[1]),
-							ft_atof(nums[2]), ft_atof(nums[3])), NULL, NULL);
+				e->objs[*i] = new_object(plane, get_vector(nums), NULL, NULL);
 			else if (!ft_strcmp(nums[0], "distance:"))
 				e->objs[*i]->obj = new_plane(ft_atof(nums[1]));
 			else if (!ft_strcmp(nums[0], "color:"))
@@ -32,12 +37,11 @@ void		read_planes(int f, t_env *e, char **line, int *i)
 			else if (!ft_strcmp(nums[0], "diffuse:"))
 				e->objs[(*i)++]->mat = new_material(&color, ft_atof(nums[1]));
 			free_char_array(&nums);
-
 		}
 	}
 }
 
-void		read_spheres(int f, t_env *e, char **line, int *i)
+void			read_spheres(int f, t_env *e, char **line, int *i)
 {
 	char	**nums;
 	t_color	color;
@@ -47,10 +51,7 @@ void		read_spheres(int f, t_env *e, char **line, int *i)
 		if (populate_array(*line, &nums))
 		{
 			if (!ft_strcmp(nums[0], "center:"))
-			{
-				e->objs[*i] = new_object(sphere, create_vector(ft_atof(nums[1]),
-							ft_atof(nums[2]), ft_atof(nums[3])), NULL, NULL);
-			}
+				e->objs[*i] = new_object(sphere, get_vector(nums), NULL, NULL);
 			else if (!ft_strcmp(nums[0], "radius:"))
 				e->objs[*i]->obj = new_sphere(ft_atof(nums[1]));
 			else if (!ft_strcmp(nums[0], "color:"))
@@ -63,7 +64,7 @@ void		read_spheres(int f, t_env *e, char **line, int *i)
 	}
 }
 
-void		read_cylinders(int f, t_env *e, char **line, int *i)
+void			read_cylinders(int f, t_env *e, char **line, int *i)
 {
 	char	**nums;
 	t_vec3	*dir;
@@ -75,13 +76,9 @@ void		read_cylinders(int f, t_env *e, char **line, int *i)
 		if (populate_array(*line, &nums))
 		{
 			if (!ft_strcmp(nums[0], "center:"))
-			{
-				e->objs[*i] = new_object(cylinder, create_vector(ft_atof(nums[1]),
-							ft_atof(nums[2]), ft_atof(nums[3])), NULL, NULL);
-			}
+				e->objs[*i] = new_object(cyl, get_vector(nums), NULL, NULL);
 			else if (!ft_strcmp(nums[0], "direction:"))
-				dir = create_vector(ft_atof(nums[1]), ft_atof(nums[2]),
-						ft_atof(nums[3]));
+				dir = get_vector(nums);
 			else if (!ft_strcmp(nums[0], "radius:"))
 				radius = ft_atof(nums[1]);
 			else if (!ft_strcmp(nums[0], "length:"))
@@ -96,7 +93,7 @@ void		read_cylinders(int f, t_env *e, char **line, int *i)
 	}
 }
 
-void		read_cones(int f, t_env *e, char **line, int *i)
+void			read_cones(int f, t_env *e, char **line, int *i)
 {
 	char	**nums;
 	t_vec3	*dir;
@@ -107,13 +104,9 @@ void		read_cones(int f, t_env *e, char **line, int *i)
 		if (populate_array(*line, &nums))
 		{
 			if (!ft_strcmp(nums[0], "center:"))
-			{
-				e->objs[*i] = new_object(cone, create_vector(ft_atof(nums[1]),
-							ft_atof(nums[2]), ft_atof(nums[3])), NULL, NULL);
-			}
+				e->objs[*i] = new_object(cone, get_vector(nums), NULL, NULL);
 			else if (!ft_strcmp(nums[0], "direction:"))
-				dir = create_vector(ft_atof(nums[1]), ft_atof(nums[2]),
-						ft_atof(nums[3]));
+				dir = get_vector(nums);
 			else if (!ft_strcmp(nums[0], "angle:"))
 				e->objs[*i]->obj = new_cone(dir, ft_atof(nums[1]));
 			else if (!ft_strcmp(nums[0], "color:"))

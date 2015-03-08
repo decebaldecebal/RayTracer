@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/07 14:05:14 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/08 11:20:26 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 11:39:20 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	free_array_elems(char **array)
 	}
 }
 
-void	free_char_array(char ***array)
+void		free_char_array(char ***array)
 {
 	free_array_elems(*array);
 	free(*array);

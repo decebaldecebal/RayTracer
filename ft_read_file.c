@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/04 18:25:34 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/08 11:36:00 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 11:43:24 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,10 @@ static void	read_camera(int f, t_env *e, char **line)
 	e->cam = new_camera(campos, lookat);
 }
 
-static void	read_lights(int f, t_env *e, char **line)
+static void	read_lights(int f, t_env *e, char **line, int i)
 {
 	char	**nums;
-	int		i;
 
-	i = 0;
 	while (get_next_line(f, line) > 0 && ft_strcmp(*line, "****"))
 	{
 		if (populate_array(*line, &nums))
@@ -57,8 +55,8 @@ static void	read_lights(int f, t_env *e, char **line)
 							ft_atof(nums[2]), ft_atof(nums[3])));
 			}
 			else if (!ft_strcmp(nums[0], "color:"))
-				set_color(&(e->lights[i++]->color), ft_atoi(nums[1]), ft_atoi(nums[2]),
-						ft_atoi(nums[3]));
+				set_color(&(e->lights[i++]->color), ft_atoi(nums[1]),
+						ft_atoi(nums[2]), ft_atoi(nums[3]));
 			free_char_array(&nums);
 		}
 	}
@@ -84,25 +82,21 @@ static void	read_objects_nb(t_env *e, char *line)
 	}
 }
 
-void		read_file(t_env *e, char *file)
+void		read_file(t_env *e, char *file, int f, int i)
 {
 	char	*line;
-	int		f;
-	int		i;
 
 	f = open(file, O_RDONLY);
 	if (f < 0)
 	{
-		ft_putstr("Can not read file.\n");
-		exit(0);
+		ft_putstr("Can not read file.\n"), exit(0);
 	}
-	i = 0;
 	while (get_next_line(f, &line) > 0)
 	{
 		if (!ft_strcmp(line, "camera:"))
 			read_camera(f, e, &line);
 		else if (!ft_strcmp(line, "lights:"))
-			read_lights(f, e, &line);
+			read_lights(f, e, &line, 0);
 		else if (ft_strstr(line, "objects:"))
 			read_objects_nb(e, line);
 		else if (!ft_strcmp(line, "planes:"))

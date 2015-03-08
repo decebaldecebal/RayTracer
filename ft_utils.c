@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 12:28:41 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/08 10:53:52 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 11:54:04 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,28 +45,26 @@ void	put_pixel_to_img(t_env *e, int x, int y, int i)
 	int		bpp;
 	int		sizeline;
 	int		endian;
-	t_color	*c;
 
-	c = e->color;
-	check_color(c);
+	check_color(e->color);
 	data = mlx_get_data_addr(e->img[i], &bpp, &sizeline, &endian);
 	if (endian)
 	{
 		data[(y * sizeline) + x * (bpp / 8)] =
-			mlx_get_color_value(e->mlx, c->r);
+			mlx_get_color_value(e->mlx, e->color->r);
 		data[(y * sizeline) + x * (bpp / 8) + 1] =
-			mlx_get_color_value(e->mlx, c->g);
+			mlx_get_color_value(e->mlx, e->color->g);
 		data[(y * sizeline) + x * (bpp / 8) + 2] =
-			mlx_get_color_value(e->mlx, c->b);
+			mlx_get_color_value(e->mlx, e->color->b);
 	}
 	else
 	{
 		data[(y * sizeline) + x * (bpp / 8)] =
-			mlx_get_color_value(e->mlx, c->b);
+			mlx_get_color_value(e->mlx, e->color->b);
 		data[(y * sizeline) + x * (bpp / 8) + 1] =
-			mlx_get_color_value(e->mlx, c->g);
+			mlx_get_color_value(e->mlx, e->color->g);
 		data[(y * sizeline) + x * (bpp / 8) + 2] =
-			mlx_get_color_value(e->mlx, c->r);
+			mlx_get_color_value(e->mlx, e->color->r);
 	}
 }
 
@@ -78,7 +76,7 @@ void	get_normal(t_vec3 *v, t_obj *o, t_vec3 *vec)
 	{
 		norm_vector(substract_vector(v, vec, o->normal));
 	}
-	else if (o->type == cylinder || o->type == cone)
+	else if (o->type == cyl || o->type == cone)
 	{
 		substract_vector(&temp, vec, o->normal);
 		project_vector(v, &temp, ((t_cylinder *)o->obj)->dir);

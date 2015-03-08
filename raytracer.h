@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:32:23 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/08 11:33:24 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 11:41:42 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_mat			*new_material(t_color *c, float diff);
 /*
 ** ft_read_file.c
 */
-void			read_file(t_env *e, char *file);
+void			read_file(t_env *e, char *file, int f, int i);
 int				populate_array(char *line, char ***nums);
 
 /*
@@ -56,7 +56,7 @@ int				populate_array(char *line, char ***nums);
 void			read_planes(int f, t_env *e, char **line, int *i);
 void			read_spheres(int f, t_env *e, char **line, int *i);
 void			read_cylinders(int f, t_env *e, char **line, int *i);
-void			read_cones(int f, t_env *e, char **line, int *);
+void			read_cones(int f, t_env *e, char **line, int *i);
 
 /*
 ** ft_draw.c

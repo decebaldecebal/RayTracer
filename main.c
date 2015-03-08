@@ -6,13 +6,13 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:34:22 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/08 11:38:02 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 11:53:12 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raytracer.h"
 
-t_mat	*new_material(t_color *c, float diff)
+t_mat		*new_material(t_color *c, float diff)
 {
 	t_mat *mat;
 
@@ -27,7 +27,7 @@ t_mat	*new_material(t_color *c, float diff)
 	return (mat);
 }
 
-static int		key_hook(int key, t_env *e)
+static int	key_hook(int key, t_env *e)
 {
 	if (key == 65307)
 		exit(0);
@@ -36,7 +36,7 @@ static int		key_hook(int key, t_env *e)
 	return (1);
 }
 
-static int		expose_hook(t_env *e)
+static int	expose_hook(t_env *e)
 {
 	int i;
 
@@ -50,7 +50,7 @@ static int		expose_hook(t_env *e)
 	return (1);
 }
 
-int				main(int ac, char **av)
+int			main(int ac, char **av)
 {
 	t_env	e;
 
@@ -58,7 +58,7 @@ int				main(int ac, char **av)
 	{
 		e.objs = NULL;
 		e.lights = NULL;
-		read_file(&e, av[1]);
+		read_file(&e, av[1], 0, 0);
 		if (!e.objs || !e.lights)
 			mem_error();
 		e.color = (t_color *)malloc(sizeof(t_color));
