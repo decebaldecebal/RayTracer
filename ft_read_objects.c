@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/07 15:30:24 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/07 16:42:15 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 11:30:26 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,21 @@ void		read_planes(int f, t_env *e, char **line, int *i)
 
 	while (get_next_line(f, line) > 0 && ft_strcmp(*line, "****"))
 	{
-		nums = ft_strsplit(*line, ' ');
-		if (!ft_strcmp(nums[0], "normal:"))
+		if (populate_array(*line, &nums))
 		{
-			e->objs[*i] = new_object(plane, create_vector(ft_atof(nums[1]),
-					ft_atof(nums[2]), ft_atof(nums[3])), NULL, NULL);
-		}
-		else if (!ft_strcmp(nums[0], "distance:"))
-			e->objs[*i]->obj = new_plane(ft_atof(nums[1]));
-		else if (!ft_strcmp(nums[0], "color:"))
-			set_color(&color, ft_atoi(nums[1]), ft_atoi(nums[2]), ft_atoi(nums[3]));
-		else if (!ft_strcmp(nums[0], "diffuse:"))
-			e->objs[(*i)++]->mat = new_material(&color, ft_atof(nums[1]));
+			if (!ft_strcmp(nums[0], "normal:"))
+				e->objs[*i] = new_object(plane, create_vector(ft_atof(nums[1]),
+							ft_atof(nums[2]), ft_atof(nums[3])), NULL, NULL);
+			else if (!ft_strcmp(nums[0], "distance:"))
+				e->objs[*i]->obj = new_plane(ft_atof(nums[1]));
+			else if (!ft_strcmp(nums[0], "color:"))
+				set_color(&color, ft_atoi(nums[1]), ft_atoi(nums[2]),
+						ft_atoi(nums[3]));
+			else if (!ft_strcmp(nums[0], "diffuse:"))
+				e->objs[(*i)++]->mat = new_material(&color, ft_atof(nums[1]));
+			free_char_array(&nums);
 
+		}
 	}
 }
 
@@ -42,17 +44,84 @@ void		read_spheres(int f, t_env *e, char **line, int *i)
 
 	while (get_next_line(f, line) > 0 && ft_strcmp(*line, "****"))
 	{
-		nums = ft_strsplit(*line, ' ');
-		if (!ft_strcmp(nums[0], "center:"))
+		if (populate_array(*line, &nums))
 		{
-			e->objs[*i] = new_object(sphere, create_vector(ft_atof(nums[1]),
-					ft_atof(nums[2]), ft_atof(nums[3])), NULL, NULL);
+			if (!ft_strcmp(nums[0], "center:"))
+			{
+				e->objs[*i] = new_object(sphere, create_vector(ft_atof(nums[1]),
+							ft_atof(nums[2]), ft_atof(nums[3])), NULL, NULL);
+			}
+			else if (!ft_strcmp(nums[0], "radius:"))
+				e->objs[*i]->obj = new_sphere(ft_atof(nums[1]));
+			else if (!ft_strcmp(nums[0], "color:"))
+				set_color(&color, ft_atoi(nums[1]), ft_atoi(nums[2]),
+						ft_atoi(nums[3]));
+			else if (!ft_strcmp(nums[0], "diffuse:"))
+				e->objs[(*i)++]->mat = new_material(&color, ft_atof(nums[1]));
+			free_char_array(&nums);
 		}
-		else if (!ft_strcmp(nums[0], "radius:"))
-			e->objs[*i]->obj = new_sphere(ft_atof(nums[1]));
-		else if (!ft_strcmp(nums[0], "color:"))
-			set_color(&color, ft_atoi(nums[1]), ft_atoi(nums[2]), ft_atoi(nums[3]));
-		else if (!ft_strcmp(nums[0], "diffuse:"))
-			e->objs[(*i)++]->mat = new_material(&color, ft_atof(nums[1]));
+	}
+}
+
+void		read_cylinders(int f, t_env *e, char **line, int *i)
+{
+	char	**nums;
+	t_vec3	*dir;
+	float	radius;
+	t_color	color;
+
+	while (get_next_line(f, line) > 0 && ft_strcmp(*line, "****"))
+	{
+		if (populate_array(*line, &nums))
+		{
+			if (!ft_strcmp(nums[0], "center:"))
+			{
+				e->objs[*i] = new_object(cylinder, create_vector(ft_atof(nums[1]),
+							ft_atof(nums[2]), ft_atof(nums[3])), NULL, NULL);
+			}
+			else if (!ft_strcmp(nums[0], "direction:"))
+				dir = create_vector(ft_atof(nums[1]), ft_atof(nums[2]),
+						ft_atof(nums[3]));
+			else if (!ft_strcmp(nums[0], "radius:"))
+				radius = ft_atof(nums[1]);
+			else if (!ft_strcmp(nums[0], "length:"))
+				e->objs[*i]->obj = new_cylinder(dir, radius, ft_atof(nums[1]));
+			else if (!ft_strcmp(nums[0], "color:"))
+				set_color(&color, ft_atoi(nums[1]), ft_atoi(nums[2]),
+						ft_atoi(nums[3]));
+			else if (!ft_strcmp(nums[0], "diffuse:"))
+				e->objs[(*i)++]->mat = new_material(&color, ft_atof(nums[1]));
+			free_char_array(&nums);
 		}
+	}
+}
+
+void		read_cones(int f, t_env *e, char **line, int *i)
+{
+	char	**nums;
+	t_vec3	*dir;
+	t_color	color;
+
+	while (get_next_line(f, line) > 0 && ft_strcmp(*line, "****"))
+	{
+		if (populate_array(*line, &nums))
+		{
+			if (!ft_strcmp(nums[0], "center:"))
+			{
+				e->objs[*i] = new_object(cone, create_vector(ft_atof(nums[1]),
+							ft_atof(nums[2]), ft_atof(nums[3])), NULL, NULL);
+			}
+			else if (!ft_strcmp(nums[0], "direction:"))
+				dir = create_vector(ft_atof(nums[1]), ft_atof(nums[2]),
+						ft_atof(nums[3]));
+			else if (!ft_strcmp(nums[0], "angle:"))
+				e->objs[*i]->obj = new_cone(dir, ft_atof(nums[1]));
+			else if (!ft_strcmp(nums[0], "color:"))
+				set_color(&color, ft_atoi(nums[1]), ft_atoi(nums[2]),
+						ft_atoi(nums[3]));
+			else if (!ft_strcmp(nums[0], "diffuse:"))
+				e->objs[(*i)++]->mat = new_material(&color, ft_atof(nums[1]));
+			free_char_array(&nums);
+		}
+	}
 }

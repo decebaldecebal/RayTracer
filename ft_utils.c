@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 12:28:41 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/05 16:11:40 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 10:53:52 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,17 @@ void	get_sx_sy(float *sx, float *sy, int x, int y)
 	}
 }
 
-void	put_pixel_to_img(t_env *e, int x, int y, t_color *c)
+void	put_pixel_to_img(t_env *e, int x, int y, int i)
 {
 	char	*data;
 	int		bpp;
 	int		sizeline;
 	int		endian;
+	t_color	*c;
 
-	check_color(e->color);
-	data = mlx_get_data_addr(e->img, &bpp, &sizeline, &endian);
+	c = e->color;
+	check_color(c);
+	data = mlx_get_data_addr(e->img[i], &bpp, &sizeline, &endian);
 	if (endian)
 	{
 		data[(y * sizeline) + x * (bpp / 8)] =

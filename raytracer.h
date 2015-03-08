@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:32:23 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/07 16:42:53 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 11:33:24 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include <math.h>
 # include <fcntl.h>
 
-# define NR_PRIMITIVES 6
 # define PI 3.14159265359
 # define EPSILON 0.0001f
 
@@ -32,7 +31,7 @@ typedef struct	s_env
 {
 	void		*mlx;
 	void		*win;
-	void		*img;
+	void		*img[WIN_HEIGHT];
 	t_color		*color;
 	t_ray		*ray;
 	t_obj		**objs;
@@ -49,12 +48,15 @@ t_mat			*new_material(t_color *c, float diff);
 ** ft_read_file.c
 */
 void			read_file(t_env *e, char *file);
+int				populate_array(char *line, char ***nums);
 
 /*
 ** ft_read_objects.
 */
 void			read_planes(int f, t_env *e, char **line, int *i);
 void			read_spheres(int f, t_env *e, char **line, int *i);
+void			read_cylinders(int f, t_env *e, char **line, int *i);
+void			read_cones(int f, t_env *e, char **line, int *);
 
 /*
 ** ft_draw.c
@@ -89,7 +91,7 @@ int				intersect_primitive(t_obj *obj, t_ray *ray, float *dist);
 */
 void			mem_error(void);
 void			get_sx_sy(float *sx, float *sy, int x, int y);
-void			put_pixel_to_img(t_env *e, int x, int y, t_color *c);
+void			put_pixel_to_img(t_env *e, int x, int y, int i);
 void			get_normal(t_vec3 *v, t_obj *o, t_vec3 *vec);
 float			solve_equation(float a, float b, float c);
 
@@ -121,6 +123,6 @@ void			set_color_mat(t_color *c, float value, t_color mat, t_color l);
 /*
 ** ft_free.c
 */
-void			free_char_array(char **array);
+void			free_char_array(char ***array);
 
 #endif

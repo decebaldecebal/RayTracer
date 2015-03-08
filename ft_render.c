@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 15:50:49 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/07 15:29:57 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/08 11:38:31 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static float	get_shade(t_env *e, t_vec3 *l_norm, t_vec3 *pi)
 	ray = new_ray(add_vector(&vec2, pi, multiply_vector_value(&vec2, &vec,
 					EPSILON)), &vec);
 	i = 0;
-	while (i < NR_PRIMITIVES)
+	while (e->objs[i])
 	{
 		if (intersect_primitive(e->objs[i], ray, &tdist))
 			return (0.0f);
@@ -85,7 +85,7 @@ static void		ray_trace(t_env *e, float *dist)
 	temp = NULL;
 	*dist = 1000000.0f;
 	i = 0;
-	while (i < NR_PRIMITIVES)
+	while (e->objs[i])
 	{
 		if (intersect_primitive(e->objs[i], e->ray, dist))
 			temp = e->objs[i];
@@ -103,19 +103,17 @@ void			draw_scene(t_env *e, int x, int y)
 
 	while (++y < WIN_HEIGHT && (x = -1))
 	{
-		e->img = mlx_new_image(e->mlx, WIN_WIDTH, 1);
+		e->img[y] = mlx_new_image(e->mlx, WIN_WIDTH, 1);
 		while (++x < WIN_WIDTH)
 		{
 			set_color(e->color, 0, 0, 0);
 			get_sx_sy(&sx, &sy, x, y);
 			e->ray = make_ray(e, sx, sy);
 			ray_trace(e, &dist);
-			put_pixel_to_img(e, x, 0, e->color);
+			put_pixel_to_img(e, x, 0, y);
 			if (e->ray)
 				free(e->ray);
 		}
-		mlx_put_image_to_window(e->mlx, e->win, e->img, 0, y);
-		free(e->img);
-		e->img = NULL;
+		mlx_put_image_to_window(e->mlx, e->win, e->img[y], 0, y);
 	}
 }
