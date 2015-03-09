@@ -24,6 +24,8 @@ material:
 color: 255 0 0
 diffuse: 0.6
 reflection: 0
+refraction: 0.4
+refraction_index: 1.4
 **
 center: 10 -1 7
 radius: 0.5
@@ -32,6 +34,8 @@ material:
 color: 0 0 255
 diffuse: 1
 reflection: 0
+refraction: 0.4
+refraction_index: 1.4
 **
 
 center: 5 -1 6
@@ -41,6 +45,8 @@ material:
 color: 0 170 170
 diffuse: 0.2
 reflection: 0
+refraction: 0.4
+refraction_index: 1.4
 **
 center: -7 -2 4
 radius: 1
@@ -48,6 +54,9 @@ radius: 1
 material:
 color: 255 97 3
 diffuse: 0.4
+reflection: 0
+refraction: 0.4
+refraction_index: 1.4
 **
 
 ****

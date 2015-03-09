@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 15:50:49 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/09 15:53:30 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/09 18:08:54 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static float	get_shade(t_env *e, t_vec3 *l_norm, t_vec3 *pi)
 	t_vec3	vec;
 	t_vec3	vec2;
 	t_ray	*ray;
-	float	tdist;
+	double	tdist;
 	int		i;
 
 	tdist = vector_length(l_norm);
@@ -79,12 +79,12 @@ static void		determine_color(t_env *e, t_vec3 *pi, t_obj *obj)
 			obj->mat->color.g * AMB_LIGHT, obj->mat->color.b * AMB_LIGHT);
 }
 
-t_obj			*ray_trace(t_env *e, int depth, float refrind, float *dist)
+t_obj			*ray_trace(t_env *e, int depth, float refrind, double *dist)
 {
 	t_obj	*temp;
 	int		i;
 	t_vec3	pi;
-	float	d_r_value[3];
+	double	d_r_value[3];
 	int		res;
 
 	set_color(e->color, 0, 0, 0);
@@ -108,17 +108,16 @@ t_obj			*ray_trace(t_env *e, int depth, float refrind, float *dist)
 		calculate_reflection(e, &pi, temp, depth);
 		d_r_value[0] = depth;
 		d_r_value[1] = refrind;
-		calculate_refraction(e, &pi, temp,d_r_value);
+		calculate_refraction(e, &pi, temp, d_r_value);
 		return (temp);
 	}
 	return (NULL);
 }
 
-void			draw_scene(t_env *e, int x, int y)
+void			draw_scene(t_env *e, int x, int y, int *sx)
 {
-	float		dist;
+	double		dist;
 	float		sy;
-	float		sx;
 	t_obj		*last_prim;
 	t_obj		*prim;
 
@@ -128,8 +127,8 @@ void			draw_scene(t_env *e, int x, int y)
 		e->img[y] = mlx_new_image(e->mlx, WIN_WIDTH, 1);
 		while (++x < WIN_WIDTH)
 		{
-			get_sx_sy(&sx, &sy, x, y);
-			e->ray = make_ray(e, sx, sy);
+			get_sx_sy(sx, &sy, x, y);
+			e->ray = make_ray(e, *sx, sy);
 			prim = ray_trace(e, 1, 1.0f, &dist);
 			if (prim != last_prim)
 			{

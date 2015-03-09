@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/08 12:49:47 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/08 13:19:22 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/09 17:16:28 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,12 @@ t_mat		*read_material(int f, char **line)
 	t_color	color;
 	float	diffuse;
 	float	refl;
+	float	refr[2];
 
 	diffuse = 0.0f;
 	refl = 0.0f;
+	refr[0] = 0.0f;
+	refr[1] = 1.0f;
 	set_color(&color, 0, 0, 0);
 	while (get_next_line(f, line) > 0 && ft_strcmp(*line, "**"))
 	{
@@ -39,8 +42,12 @@ t_mat		*read_material(int f, char **line)
 				diffuse = ft_atof(nums[1]);
 			else if (!ft_strcmp(nums[0], "reflection:"))
 				refl = ft_atof(nums[1]);
+			else if (!ft_strcmp(nums[0], "refraction:"))
+				refr[0] = ft_atof(nums[1]);
+			else if (!ft_strcmp(nums[0], "refraction_index:"))
+				refr[1] = ft_atof(nums[1]);
 			free_char_array(&nums);
 		}
 	}
-	return (new_material(&color, diffuse, refl));
+	return (new_material(&color, diffuse, refl, refr));
 }

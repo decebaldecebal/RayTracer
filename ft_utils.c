@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 12:28:41 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/09 15:48:46 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/09 17:55:15 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ void	get_normal(t_vec3 *v, t_obj *o, t_vec3 *vec)
 		norm_vector(new_vector(v, o->normal->x, o->normal->y, o->normal->z));
 }
 
-int		solve_equation(float a, float b, float c, float *rslt)
+int		solve_equation(double a, double b, double c, double *rslt)
 {
-	float	det;
+	double	det;
 
 	det = (b * b) - 4 * a * c;
 	if (det > 0 && (det = sqrtf(det)))
@@ -97,10 +97,10 @@ int		solve_equation(float a, float b, float c, float *rslt)
 		b = -b;
 		if (b + det > 0)
 		{
-			*rslt = (b - det) / (2 * a);
-			if (*rslt < 0)
+			*rslt = (b - det) / (2 * a) - 0.000001;
+			if (*rslt < 0 || *rslt > (b + det) / (2 * a) - 0.000001)
 			{
-				*rslt = (b + det) / (2 * a);
+				*rslt = (b + det) / (2 * a) - 0.000001;
 				return (-1);
 			}
 			return (1);

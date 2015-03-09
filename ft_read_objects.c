@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/07 15:30:24 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/09 16:26:57 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/09 17:14:41 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ void			read_planes(int f, t_env *e, char **line, int *i)
 			free_char_array(&nums);
 		}
 		else if (e->objs[*i] && !ft_strcmp(*line, "material:"))
-		{
 			e->objs[(*i)++]->mat = read_material(f, line);
-			e->objs[*i - 1]->mat->refrind = 1.0f;
-		}
 	}
 }
 
@@ -49,11 +46,7 @@ void			read_spheres(int f, t_env *e, char **line, int *i)
 			free_char_array(&nums);
 		}
 		else if (e->objs[*i] && !ft_strcmp(*line, "material:"))
-		{
 			e->objs[(*i)++]->mat = read_material(f, line);
-			e->objs[*i - 1]->mat->refr = 0.4f;
-			e->objs[*i - 1]->mat->refrind = 1.4f;
-		}
 	}
 }
 

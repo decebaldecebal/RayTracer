@@ -6,13 +6,13 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:34:22 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/09 15:51:59 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/09 18:08:18 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raytracer.h"
 
-t_mat		*new_material(t_color *c, float diff, float refl)
+t_mat		*new_material(t_color *c, float diff, float refl, float refr[2])
 {
 	t_mat *mat;
 
@@ -25,8 +25,8 @@ t_mat		*new_material(t_color *c, float diff, float refl)
 	mat->diff = diff;
 	mat->spec = 1.0f - diff;
 	mat->refl = refl;
-	mat->refr = 0.0f;
-	mat->refrind = 1.0f;
+	mat->refr = refr[0];
+	mat->refrind = refr[1];
 	return (mat);
 }
 
@@ -56,6 +56,7 @@ static int	expose_hook(t_env *e)
 int			main(int ac, char **av)
 {
 	t_env	e;
+	int		sx;
 
 	if (ac == 2)
 	{
@@ -69,7 +70,7 @@ int			main(int ac, char **av)
 			mem_error();
 		e.mlx = mlx_init();
 		e.win = mlx_new_window(e.mlx, WIN_WIDTH, WIN_HEIGHT, "RTv1");
-		draw_scene(&e, -1, -1);
+		draw_scene(&e, -1, -1, &sx);
 		mlx_key_hook(e.win, &key_hook, &e);
 		mlx_expose_hook(e.win, &expose_hook, &e);
 		mlx_loop(e.mlx);
