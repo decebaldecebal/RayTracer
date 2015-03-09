@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:32:23 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/09 18:08:04 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/09 18:18:53 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_mat			*read_material(int f, char **line);
 ** ft_render.c
 */
 t_obj			*ray_trace(t_env *e, int depth, float refrind, double *dist);
-void			draw_scene(t_env *e, int x, int y, int *sx);
+void			draw_scene(t_env *e, int x, int y, float *sx);
 
 /*
 ** ft_render2.c
@@ -125,6 +125,11 @@ void			get_sx_sy(float *sx, float *sy, float x, float y);
 void			put_pixel_to_img(t_env *e, int x, int y, int i);
 void			get_normal(t_vec3 *v, t_obj *o, t_vec3 *vec);
 int				solve_equation(double a, double b, double c, double *rslt);
+
+/*
+** ft_utils2.c
+*/
+void			get_cone_normal(t_vec3 *v, t_obj *o, t_vec3 *vec);
 
 /*
 ** ft_vector.c

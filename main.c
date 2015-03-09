@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:34:22 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/09 18:08:18 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/09 18:18:45 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	expose_hook(t_env *e)
 int			main(int ac, char **av)
 {
 	t_env	e;
-	int		sx;
+	float	sx;
 
 	if (ac == 2)
 	{

@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 15:50:49 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/09 18:08:54 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/09 18:18:37 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ t_obj			*ray_trace(t_env *e, int depth, float refrind, double *dist)
 	return (NULL);
 }
 
-void			draw_scene(t_env *e, int x, int y, int *sx)
+void			draw_scene(t_env *e, int x, int y, float *sx)
 {
 	double		dist;
 	float		sy;

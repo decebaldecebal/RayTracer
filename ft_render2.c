@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/08 12:03:38 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/09 18:04:48 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/09 18:32:25 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,22 +96,22 @@ t_obj		*apply_supersampling(t_env *e, int x, int y, double *dist)
 	t_obj	*prim;
 
 	prim = NULL;
-	tx = -2;
-	while (++tx < 2)
+	tx = -1;
+	while (++tx < 1)
 	{
-		ty = -2;
-		while (++ty < 2)
+		ty = -1;
+		while (++ty < 1)
 		{
-			get_sx_sy(&sx, &sy, (float)x + 0.5 * (float)tx,
-					(float)y + 0.5 * (float)ty);
+			get_sx_sy(&sx, &sy, (float)x + 0.5f * (float)tx,
+					(float)y + 0.5f * (float)ty);
 			if (e->ray)
 				free(e->ray);
 			e->ray = make_ray(e, sx, sy);
 			prim = ray_trace(e, 1, 1.0f, dist);
 		}
 	}
-	e->color->r /= 9;
-	e->color->g /= 9;
-	e->color->b /= 9;
+	e->color->r /= 1;
+	e->color->g /= 1;
+	e->color->b /= 1;
 	return (prim);
 }
