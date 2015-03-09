@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:32:23 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/08 15:25:45 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/09 16:27:16 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <mlx.h>
 # include <math.h>
 # include <fcntl.h>
+
+# include <stdio.h>
 
 # define WIN_WIDTH 1280
 # define WIN_HEIGHT 720
@@ -112,7 +114,7 @@ void			mem_error(void);
 void			get_sx_sy(float *sx, float *sy, float x, float y);
 void			put_pixel_to_img(t_env *e, int x, int y, int i);
 void			get_normal(t_vec3 *v, t_obj *o, t_vec3 *vec);
-float			solve_equation(float a, float b, float c);
+int				solve_equation(float a, float b, float c, float *rslt);
 
 /*
 ** ft_vector.c

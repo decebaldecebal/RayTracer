@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 15:50:49 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/08 15:25:54 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/09 15:53:30 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ t_obj			*ray_trace(t_env *e, int depth, float refrind, float *dist)
 	t_obj	*temp;
 	int		i;
 	t_vec3	pi;
-	float	refr[2];
+	float	d_r_value[3];
+	int		res;
 
 	set_color(e->color, 0, 0, 0);
 	temp = NULL;
@@ -92,8 +93,11 @@ t_obj			*ray_trace(t_env *e, int depth, float refrind, float *dist)
 	i = 0;
 	while (e->objs[i])
 	{
-		if (intersect_primitive(e->objs[i], e->ray, dist))
+		if ((res = intersect_primitive(e->objs[i], e->ray, dist)))
+		{
 			temp = e->objs[i];
+			d_r_value[2] = res;
+		}
 		i++;
 	}
 	if (temp)
@@ -102,9 +106,9 @@ t_obj			*ray_trace(t_env *e, int depth, float refrind, float *dist)
 			*dist));
 		determine_color(e, &pi, temp);
 		calculate_reflection(e, &pi, temp, depth);
-		refr[0] = depth;
-		refr[1] = refrind;
-		//calculate_refraction(e, &pi, temp, refr);
+		d_r_value[0] = depth;
+		d_r_value[1] = refrind;
+		calculate_refraction(e, &pi, temp,d_r_value);
 		return (temp);
 	}
 	return (NULL);
