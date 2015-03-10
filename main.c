@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:34:22 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/09 18:18:45 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/10 16:08:19 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int			main(int ac, char **av)
 	{
 		e.objs = NULL;
 		e.lights = NULL;
+		e.aliasingsq = ANTIALIASING * ANTIALIASING;
 		read_file(&e, av[1], 0, 0);
 		if (!e.objs)
 			mem_error();

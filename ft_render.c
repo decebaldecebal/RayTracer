@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 15:50:49 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/09 18:18:37 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/10 17:10:38 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ t_obj			*ray_trace(t_env *e, int depth, float refrind, double *dist)
 	double	d_r_value[3];
 	int		res;
 
-	set_color(e->color, 0, 0, 0);
 	temp = NULL;
 	*dist = 1000000.0f;
 	i = 0;
@@ -120,20 +119,28 @@ void			draw_scene(t_env *e, int x, int y, float *sx)
 	float		sy;
 	t_obj		*last_prim;
 	t_obj		*prim;
+	int			xy[2];
+	int			txy[2];
 
 	last_prim = NULL;
+	txy[0] = ANTIALIASING / 2;
+	txy[1] = ANTIALIASING / 2;
 	while (++y < WIN_HEIGHT && (x = -1))
 	{
 		e->img[y] = mlx_new_image(e->mlx, WIN_WIDTH, 1);
 		while (++x < WIN_WIDTH)
 		{
-			get_sx_sy(sx, &sy, x, y);
+			xy[0] = x;
+			xy[1] = y;
+			set_color(e->color, 0, 0, 0);
+			get_sx_sy_aliasing(sx, &sy, xy, txy);
 			e->ray = make_ray(e, *sx, sy);
 			prim = ray_trace(e, 1, 1.0f, &dist);
-			if (prim != last_prim)
+			if (prim != last_prim || SUPERSAMPLING)
 			{
 				last_prim = prim;
-				prim = apply_supersampling(e, x, y, &dist);
+				set_color(e->color, 0, 0, 0);
+				prim = apply_antialiasing(e, x, y, &dist);
 			}
 			put_pixel_to_img(e, x, 0, y);
 			if (e->ray)

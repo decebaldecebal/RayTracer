@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/08 12:03:38 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/09 18:32:25 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/10 17:11:05 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void		calculate_reflection(t_env *e, t_vec3 *pi, t_obj *temp, int depth)
 	if (rd[0] > 0.0f && depth < TRACE_DEPTH)
 	{
 		set_color(&c, e->color->r, e->color->g, e->color->b);
+		set_color(e->color, 0, 0, 0);
 		get_normal(&norm, temp, pi);
 		substract_vector(&vec, e->ray->dir, multiply_vector_value(&vec,
 					&norm, 2.0f * vector_dot(e->ray->dir, &norm)));
@@ -81,37 +82,39 @@ void		calculate_refraction(t_env *e, t_vec3 *pi, t_obj *temp,
 						multiply_vector_value(&l.vec[2], &l.vec[1], EPSILON)),
 					&l.vec[1]);
 			set_color(&l.c[0], e->color->r, e->color->g, e->color->b);
+			set_color(e->color, 0, 0, 0);
 			ray_trace(e, par[0] + 1, l.refr[1], &l.nd[1]);
 			set_color_aux(e, &l, temp);
 		}
 	}
 }
 
-t_obj		*apply_supersampling(t_env *e, int x, int y, double *dist)
+t_obj		*apply_antialiasing(t_env *e, int x, int y, double *dist)
 {
-	int		tx;
-	int		ty;
+	int		txy[2];
 	float	sx;
 	float	sy;
+	int		xy[2];
 	t_obj	*prim;
 
 	prim = NULL;
-	tx = -1;
-	while (++tx < 1)
+	txy[0] = -1;
+	xy[0] = x;
+	xy[1] = y;
+	while (++txy[0] < ANTIALIASING)
 	{
-		ty = -1;
-		while (++ty < 1)
+		txy[1] = -1;
+		while (++txy[1] < ANTIALIASING)
 		{
-			get_sx_sy(&sx, &sy, (float)x + 0.5f * (float)tx,
-					(float)y + 0.5f * (float)ty);
+			get_sx_sy_aliasing(&sx, &sy, xy, txy);
 			if (e->ray)
 				free(e->ray);
 			e->ray = make_ray(e, sx, sy);
 			prim = ray_trace(e, 1, 1.0f, dist);
 		}
 	}
-	e->color->r /= 1;
-	e->color->g /= 1;
-	e->color->b /= 1;
+	e->color->r /= e->aliasingsq;
+	e->color->g /= e->aliasingsq;
+	e->color->b /= e->aliasingsq;
 	return (prim);
 }

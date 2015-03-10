@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:32:23 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/09 18:18:53 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/10 17:10:34 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,20 @@
 # define WIN_HEIGHT 720
 # define ASPECT WIN_WIDTH / WIN_HEIGHT
 
+/*
+** 0 - disabled
+** 1 - enabled
+** WARNING: Enabling this will SIGNIFICANTLY increase render time.
+*/
+# define SUPERSAMPLING 0
+
+/*
+** Amount of antialiasing to be applied.
+** If supersampling is enabled, this will instead be the supersampling value.
+** WARNING: A bigger value will increase render time.
+*/
+# define ANTIALIASING 4
+
 # define TRACE_DEPTH 4
 # define AMB_LIGHT 0.4
 
@@ -37,6 +51,7 @@ typedef struct	s_env
 	void		*mlx;
 	void		*win;
 	void		*img[WIN_HEIGHT];
+	float		aliasingsq;
 	t_color		*color;
 	t_ray		*ray;
 	t_obj		**objs;
@@ -92,7 +107,7 @@ void			calculate_reflection(t_env *e, t_vec3 *pi, t_obj *temp,
 				int depth);
 void			calculate_refraction(t_env *e, t_vec3 *pi, t_obj *temp,
 				double par[3]);
-t_obj			*apply_supersampling(t_env *e, int x, int y, double *dist);
+t_obj			*apply_antialiasing(t_env *e, int x, int y, double *dist);
 
 /*
 ** ft_scene.c
@@ -121,7 +136,7 @@ int				intersect_primitive(t_obj *obj, t_ray *ray, double *dist);
 ** ft_utils.c
 */
 void			mem_error(void);
-void			get_sx_sy(float *sx, float *sy, float x, float y);
+void			get_sx_sy(float *sx, float *sy, int x, int y);
 void			put_pixel_to_img(t_env *e, int x, int y, int i);
 void			get_normal(t_vec3 *v, t_obj *o, t_vec3 *vec);
 int				solve_equation(double a, double b, double c, double *rslt);
@@ -130,6 +145,7 @@ int				solve_equation(double a, double b, double c, double *rslt);
 ** ft_utils2.c
 */
 void			get_cone_normal(t_vec3 *v, t_obj *o, t_vec3 *vec);
+void			get_sx_sy_aliasing(float *sx, float *sy, int xy[2], int axy[2]);
 
 /*
 ** ft_vector.c
