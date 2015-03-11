@@ -24,7 +24,7 @@ material:
 color: 255 0 0
 diffuse: 0.6
 reflection: 0
-refraction: 0.4
+refraction: 0
 refraction_index: 1.4
 **
 center: 10 -1 7
@@ -34,7 +34,7 @@ material:
 color: 0 0 255
 diffuse: 1
 reflection: 0
-refraction: 0.4
+refraction: 0
 refraction_index: 1.4
 **
 

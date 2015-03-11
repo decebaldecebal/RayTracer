@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:34:22 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/10 16:08:19 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/11 15:58:19 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ int			main(int ac, char **av)
 			mem_error();
 		e.mlx = mlx_init();
 		e.win = mlx_new_window(e.mlx, WIN_WIDTH, WIN_HEIGHT, "RTv1");
-		draw_scene(&e, -1, -1, &sx);
 		mlx_key_hook(e.win, &key_hook, &e);
 		mlx_expose_hook(e.win, &expose_hook, &e);
+		draw_scene(&e, -1, -1, &sx);
 		mlx_loop(e.mlx);
 	}
 	return (0);

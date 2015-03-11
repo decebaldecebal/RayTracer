@@ -1,0 +1,83 @@
+camera:
+pos: 0 1 -4
+dir: 0 1 1
+****
+lights:
+numbers: 2
+pos: -4 4 -2
+color: 255 255 255
+
+pos: 7 4 -2
+color: 255 255 255
+****
+objects: 6
+****
+spheres:
+
+center: 0 -5 -3
+radius: 5
+
+material:
+color: 255 0 0
+diffuse: 0.4
+reflection: 0
+refraction: 0
+refraction_index: 1.4
+**
+center: 3 -2 4
+radius: 1.5
+
+material:
+color: 0 255 0
+diffuse: 0.4
+reflection: 0.4
+refraction: 0
+refraction_index: 1.4
+**
+****
+planes:
+
+normal: 0 1.0 0
+distance: 5
+
+material:
+color: 100 100 100
+diffuse: 1.0
+reflection: 0.8
+**
+normal: 1.0 0 0.0
+distance: 4
+
+material:
+color: 0 0 200
+diffuse: 1
+reflection: 1
+**
+****
+cylinders:
+
+center: -2 -4 2
+direction: 0 1 0.3
+radius: 0.8
+length: 0
+
+material:
+color: 200 21 133
+diffuse: 0.4
+refraction: 0
+refraction_index: 1.0
+**
+****
+cones:
+
+center: -2 -1 7
+direction: 0 1 -0.35
+angle: 12
+
+material:
+color: 255 193 37
+diffuse: 0.4
+refraction: 0
+refraction_index: 1.0
+**
+****

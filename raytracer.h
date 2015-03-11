@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:32:23 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/10 17:10:34 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/11 17:43:34 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 # include <mlx.h>
 # include <math.h>
 # include <fcntl.h>
-
-# include <stdio.h>
 
 # define WIN_WIDTH 1280
 # define WIN_HEIGHT 720
