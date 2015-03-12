@@ -6,48 +6,58 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/08 12:49:47 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/11 17:25:19 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/12 16:35:34 by lmuresan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raytracer.h"
 
-t_vec3		*get_vector(char **nums)
-{
-	return (create_vector(ft_atof(nums[1]), ft_atof(nums[2]),
-	ft_atof(nums[3])));
-}
-
-t_mat		*read_material(int f, char **line)
+typedef	struct		s_rmat
 {
 	char	**nums;
 	t_color	color;
 	float	diffuse;
 	float	refl;
 	float	refr[2];
+}					t_rmat;
 
-	diffuse = 0.0f;
-	refl = 0.0f;
-	refr[0] = 0.0f;
-	refr[1] = 1.0f;
-	set_color(&color, 0, 0, 0);
+t_vec3				*get_vector(char **nums)
+{
+	return (create_vector(ft_atof(nums[1]), ft_atof(nums[2]),
+	ft_atof(nums[3])));
+}
+
+void				read_material_aux(t_rmat *t)
+{
+	if (!ft_strcmp(t->nums[0], "color:"))
+		set_color(&t->color, ft_atoi(t->nums[1]), ft_atoi(t->nums[2]),
+				ft_atoi(t->nums[3]));
+	else if (!ft_strcmp(t->nums[0], "diffuse:"))
+		t->diffuse = ft_atof(t->nums[1]);
+	else if (!ft_strcmp(t->nums[0], "reflection:"))
+		t->refl = ft_atof(t->nums[1]);
+	else if (!ft_strcmp(t->nums[0], "refraction:"))
+		t->refr[0] = ft_atof(t->nums[1]);
+	else if (!ft_strcmp(t->nums[0], "refraction_index:"))
+		t->refr[1] = ft_atof(t->nums[1]);
+}
+
+t_mat				*read_material(int f, char **line)
+{
+	t_rmat	t;
+
+	t.diffuse = 0.0f;
+	t.refl = 0.0f;
+	t.refr[0] = 0.0f;
+	t.refr[1] = 1.0f;
+	set_color(&t.color, 0, 0, 0);
 	while (get_next_line(f, line) > 0 && ft_strcmp(*line, "**"))
 	{
-		if (populate_array(*line, &nums))
+		if (populate_array(*line, &t.nums))
 		{
-			if (!ft_strcmp(nums[0], "color:"))
-				set_color(&color, ft_atoi(nums[1]), ft_atoi(nums[2]),
-						ft_atoi(nums[3]));
-			else if (!ft_strcmp(nums[0], "diffuse:"))
-				diffuse = ft_atof(nums[1]);
-			else if (!ft_strcmp(nums[0], "reflection:"))
-				refl = ft_atof(nums[1]);
-			else if (!ft_strcmp(nums[0], "refraction:"))
-				refr[0] = ft_atof(nums[1]);
-			else if (!ft_strcmp(nums[0], "refraction_index:"))
-				refr[1] = ft_atof(nums[1]);
-			free_char_array(&nums);
+			read_material_aux(&t);
+			free_char_array(&t.nums);
 		}
 	}
-	return (new_material(&color, diffuse, refl, refr));
+	return (new_material(&t.color, t.diffuse, t.refl, t.refr));
 }

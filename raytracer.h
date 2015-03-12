@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:32:23 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/11 17:43:34 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/12 16:36:41 by lmuresan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ typedef struct	s_env
 	t_obj		**objs;
 	t_light		**lights;
 	t_camera	*cam;
+	t_obj		*last_prim;
+	t_obj		*prim;
+	int			txy[2];
 }				t_env;
 
 typedef struct	s_local
@@ -95,8 +98,9 @@ t_mat			*read_material(int f, char **line);
 /*
 ** ft_render.c
 */
+void			check_objects(t_env *e, t_light *light, t_obj *obj, t_vec3 *pi);
 t_obj			*ray_trace(t_env *e, int depth, float refrind, double *dist);
-void			draw_scene(t_env *e, int x, int y, float *sx);
+void			draw_scene(t_env *e, int xy[2], float *sy, float *sx);
 
 /*
 ** ft_render2.c
@@ -105,6 +109,11 @@ void			calculate_reflection(t_env *e, t_vec3 *pi, t_obj *temp,
 				int depth);
 void			calculate_refraction(t_env *e, t_vec3 *pi, t_obj *temp,
 				double par[3]);
+
+/*
+** ft_render3.c
+*/
+void			determine_pi(t_env *e, t_vec3 *pi, t_obj *temp, double *dist);
 t_obj			*apply_antialiasing(t_env *e, int x, int y, double *dist);
 
 /*
@@ -143,6 +152,8 @@ int				solve_equation(double a, double b, double c, double *rslt);
 ** ft_utils2.c
 */
 void			get_cone_normal(t_vec3 *v, t_obj *o, t_vec3 *vec);
+void			get_sx_sy_aliasing2(float *sx, float *sy, int xy[2],
+				int axy[2]);
 void			get_sx_sy_aliasing(float *sx, float *sy, int xy[2], int axy[2]);
 
 /*

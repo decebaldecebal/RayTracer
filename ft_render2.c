@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/08 12:03:38 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/11 16:06:51 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/11 20:10:08 by glapusan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ static void	add_vector_aux(t_env *e, t_local *l)
 {
 	add_vector(&l->vec[1],
 			multiply_vector_value(&l->vec[1], e->ray->dir, l->nd[0]),
-			multiply_vector_value(&l->vec[1], &l->vec[0], l->nd[0] * l->cos[0] -
-				sqrtf(l->cos[1])));
+			multiply_vector_value(&l->vec[1], &l->vec[0],
+				l->nd[0] * l->cos[0] - sqrtf(l->cos[1])));
 }
 
 void		calculate_refraction(t_env *e, t_vec3 *pi, t_obj *temp,
@@ -87,34 +87,4 @@ void		calculate_refraction(t_env *e, t_vec3 *pi, t_obj *temp,
 			set_color_aux(e, &l, temp);
 		}
 	}
-}
-
-t_obj		*apply_antialiasing(t_env *e, int x, int y, double *dist)
-{
-	int		txy[2];
-	float	sx;
-	float	sy;
-	int		xy[2];
-	t_obj	*prim;
-
-	prim = NULL;
-	txy[0] = -1;
-	xy[0] = x;
-	xy[1] = y;
-	while (++txy[0] < ANTIALIASING)
-	{
-		txy[1] = -1;
-		while (++txy[1] < ANTIALIASING)
-		{
-			get_sx_sy_aliasing(&sx, &sy, xy, txy);
-			if (e->ray)
-				free(e->ray);
-			e->ray = make_ray(e, sx, sy);
-			prim = ray_trace(e, 1, 1.0f, dist);
-		}
-	}
-	e->color->r /= e->aliasingsq;
-	e->color->g /= e->aliasingsq;
-	e->color->b /= e->aliasingsq;
-	return (prim);
 }

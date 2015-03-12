@@ -36,7 +36,7 @@ static float	get_shade(t_env *e, t_vec3 *l_norm, t_vec3 *pi)
 	return (1.0f);
 }
 
-static void		check_objects(t_env *e, t_light *light, t_obj *obj, t_vec3 *pi)
+void			check_objects(t_env *e, t_light *light, t_obj *obj, t_vec3 *pi)
 {
 	t_vec3	l_norm;
 	t_vec3	norm;
@@ -64,21 +64,6 @@ static void		check_objects(t_env *e, t_light *light, t_obj *obj, t_vec3 *pi)
 	}
 }
 
-static void		determine_color(t_env *e, t_vec3 *pi, t_obj *obj)
-{
-	int		i;
-
-	i = 0;
-	while (e->lights && e->lights[i])
-	{
-		check_objects(e, e->lights[i], obj, pi);
-		i++;
-	}
-	if (i == 0)
-		set_color(e->color, obj->mat->color.r * AMB_LIGHT,
-			obj->mat->color.g * AMB_LIGHT, obj->mat->color.b * AMB_LIGHT);
-}
-
 t_obj			*ray_trace(t_env *e, int depth, float refrind, double *dist)
 {
 	t_obj	*temp;
@@ -89,21 +74,16 @@ t_obj			*ray_trace(t_env *e, int depth, float refrind, double *dist)
 
 	temp = NULL;
 	*dist = 1000000.0f;
-	i = 0;
-	while (e->objs[i])
-	{
+	i = -1;
+	while (e->objs[++i])
 		if ((res = intersect_primitive(e->objs[i], e->ray, dist)))
 		{
 			temp = e->objs[i];
 			d_r_value[2] = res;
 		}
-		i++;
-	}
 	if (temp)
 	{
-		add_vector(&pi, e->ray->ori, multiply_vector_value(&pi, e->ray->dir,
-			*dist));
-		determine_color(e, &pi, temp);
+		determine_pi(e, &pi, temp, dist);
 		calculate_reflection(e, &pi, temp, depth);
 		d_r_value[0] = depth;
 		d_r_value[1] = refrind;
@@ -113,39 +93,28 @@ t_obj			*ray_trace(t_env *e, int depth, float refrind, double *dist)
 	return (NULL);
 }
 
-void			draw_scene(t_env *e, int x, int y, float *sx)
+void			draw_scene(t_env *e, int xy[2], float *sy, float *sx)
 {
 	double		dist;
-	float		sy;
-	t_obj		*last_prim;
-	t_obj		*prim;
-	int			xy[2];
-	int			txy[2];
 
-	last_prim = NULL;
-	txy[0] = ANTIALIASING / 2;
-	txy[1] = ANTIALIASING / 2;
-	while (++y < WIN_HEIGHT && (x = -1))
+	while (++xy[1] < WIN_HEIGHT && (xy[0] = -1))
 	{
-		e->img[y] = mlx_new_image(e->mlx, WIN_WIDTH, 1);
-		while (++x < WIN_WIDTH)
+		e->img[xy[1]] = mlx_new_image(e->mlx, WIN_WIDTH, 1);
+		while (++xy[0] < WIN_WIDTH)
 		{
-			xy[0] = x;
-			xy[1] = y;
 			set_color(e->color, 0, 0, 0);
-			get_sx_sy_aliasing(sx, &sy, xy, txy);
-			e->ray = make_ray(e, *sx, sy);
-			prim = ray_trace(e, 1, 1.0f, &dist);
-			if (prim != last_prim || SUPERSAMPLING)
+			get_sx_sy_aliasing(sx, sy, xy, e->txy);
+			e->ray = make_ray(e, *sx, *sy);
+			e->prim = ray_trace(e, 1, 1.0f, &dist);
+			if (e->prim != e->last_prim || SUPERSAMPLING)
 			{
-				last_prim = prim;
-				set_color(e->color, 0, 0, 0);
-				prim = apply_antialiasing(e, x, y, &dist);
+				e->last_prim = e->prim, set_color(e->color, 0, 0, 0);
+				e->prim = apply_antialiasing(e, xy[0], xy[1], &dist);
 			}
-			put_pixel_to_img(e, x, 0, y);
+			put_pixel_to_img(e, xy[0], 0, xy[1]);
 			if (e->ray)
 				free(e->ray);
 		}
-		mlx_put_image_to_window(e->mlx, e->win, e->img[y], 0, y);
+		mlx_put_image_to_window(e->mlx, e->win, e->img[xy[1]], 0, xy[1]);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:34:22 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/11 15:58:19 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/12 16:29:14 by lmuresan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,23 @@ static int	expose_hook(t_env *e)
 	return (1);
 }
 
+void		init_var(t_env *e)
+{
+	e->last_prim = NULL;
+	e->txy[0] = ANTIALIASING / 2;
+	e->txy[1] = ANTIALIASING / 2;
+}
+
 int			main(int ac, char **av)
 {
 	t_env	e;
 	float	sx;
+	float	sy;
+	int		xy[2];
 
-	if (ac == 2)
+	if (ac == 2 && (xy[1] = -1))
 	{
+		init_var(&e);
 		e.objs = NULL;
 		e.lights = NULL;
 		e.aliasingsq = ANTIALIASING * ANTIALIASING;
@@ -73,7 +83,7 @@ int			main(int ac, char **av)
 		e.win = mlx_new_window(e.mlx, WIN_WIDTH, WIN_HEIGHT, "RTv1");
 		mlx_key_hook(e.win, &key_hook, &e);
 		mlx_expose_hook(e.win, &expose_hook, &e);
-		draw_scene(&e, -1, -1, &sx);
+		draw_scene(&e, xy, &sy, &sx);
 		mlx_loop(e.mlx);
 	}
 	return (0);
