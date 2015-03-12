@@ -6,7 +6,7 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:32:23 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/12 16:36:41 by lmuresan         ###   ########.fr       */
+/*   Updated: 2015/03/12 16:45:51 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,15 @@ typedef struct	s_local
 	t_vec3		vec[3];
 	t_color		c[2];
 }				t_local;
+
+typedef	struct	s_rmat
+{
+	char	**nums;
+	t_color	color;
+	float	diffuse;
+	float	refl;
+	float	refr[2];
+}				t_rmat;
 
 /*
 ** main.c

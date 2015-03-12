@@ -6,20 +6,11 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/08 12:49:47 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/12 16:35:34 by lmuresan         ###   ########.fr       */
+/*   Updated: 2015/03/12 16:45:11 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raytracer.h"
-
-typedef	struct		s_rmat
-{
-	char	**nums;
-	t_color	color;
-	float	diffuse;
-	float	refl;
-	float	refr[2];
-}					t_rmat;
 
 t_vec3				*get_vector(char **nums)
 {
