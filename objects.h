@@ -13,16 +13,16 @@
 #ifndef OBJECTS_H
 # define OBJECTS_H
 
-# include "utils.h"
+# include "utils/utils.h"
 
-typedef enum	e_shape
+typedef enum       e_shape
 {
 	plane,
 	sphere,
 	cyl,
 	cone,
 	light
-}				t_shape;
+}               t_shape;
 
 typedef struct	s_color
 {

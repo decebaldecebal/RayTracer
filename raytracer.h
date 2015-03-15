@@ -6,19 +6,31 @@
 /*   By: rserban <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/17 11:32:23 by rserban           #+#    #+#             */
-/*   Updated: 2015/03/12 16:45:51 by rserban          ###   ########.fr       */
+/*   Updated: 2015/03/11 17:43:34 by rserban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RAYTRACER_H
 # define RAYTRACER_H
 
-# include "utils.h"
 # include "objects.h"
-# include "libft/libft.h"
-# include <mlx.h>
-# include <math.h>
+
+# include <iostream>
+# include <iomanip>
+# include <fstream>
+# include <sstream>
+# include <vector>
+# include <cmath>
+# include <limits>
+
+# include <string.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <time.h>
 # include <fcntl.h>
+
+using namespace std;
 
 # define WIN_WIDTH 1280
 # define WIN_HEIGHT 720
@@ -46,18 +58,14 @@
 
 typedef struct	s_env
 {
-	void		*mlx;
-	void		*win;
-	void		*img[WIN_HEIGHT];
 	float		aliasingsq;
+	int         totpixels;
 	t_color		*color;
+	t_color     *img;
 	t_ray		*ray;
 	t_obj		**objs;
 	t_light		**lights;
 	t_camera	*cam;
-	t_obj		*last_prim;
-	t_obj		*prim;
-	int			txy[2];
 }				t_env;
 
 typedef struct	s_local
@@ -69,47 +77,36 @@ typedef struct	s_local
 	t_color		c[2];
 }				t_local;
 
-typedef	struct	s_rmat
-{
-	char	**nums;
-	t_color	color;
-	float	diffuse;
-	float	refl;
-	float	refr[2];
-}				t_rmat;
-
 /*
 ** main.c
 */
-t_mat			*new_material(t_color *c, float diff, float refl,
-		float refr[2]);
+t_mat			*new_material(t_color *c, float diff, float refl, float refr[2]);
 
 /*
 ** ft_read_file.c
 */
-void			read_file(t_env *e, char *file, int f, int i);
+void			read_file(t_env *e, char *file);
 int				populate_array(char *line, char ***nums);
 
 /*
 ** ft_read_objects.c
 */
-void			read_planes(int f, t_env *e, char **line, int *i);
-void			read_spheres(int f, t_env *e, char **line, int *i);
-void			read_cylinders(int f, t_env *e, char **line, int *i);
-void			read_cones(int f, t_env *e, char **line, int *i);
+void			read_planes(FILE *f, t_env *e, int *i);
+void			read_spheres(FILE *f, t_env *e, int *i);
+void			read_cylinders(FILE *f, t_env *e, int *i);
+void			read_cones(FILE *f, t_env *e, int *i);
 
 /*
 ** ft_read_utils.c
 */
 t_vec3			*get_vector(char **nums);
-t_mat			*read_material(int f, char **line);
+t_mat			*read_material(FILE *f);
 
 /*
 ** ft_render.c
 */
-void			check_objects(t_env *e, t_light *light, t_obj *obj, t_vec3 *pi);
 t_obj			*ray_trace(t_env *e, int depth, float refrind, double *dist);
-void			draw_scene(t_env *e, int xy[2], float *sy, float *sx);
+void			draw_scene(t_env *e);
 
 /*
 ** ft_render2.c
@@ -118,11 +115,6 @@ void			calculate_reflection(t_env *e, t_vec3 *pi, t_obj *temp,
 				int depth);
 void			calculate_refraction(t_env *e, t_vec3 *pi, t_obj *temp,
 				double par[3]);
-
-/*
-** ft_render3.c
-*/
-void			determine_pi(t_env *e, t_vec3 *pi, t_obj *temp, double *dist);
 t_obj			*apply_antialiasing(t_env *e, int x, int y, double *dist);
 
 /*
@@ -153,7 +145,7 @@ int				intersect_primitive(t_obj *obj, t_ray *ray, double *dist);
 */
 void			mem_error(void);
 void			get_sx_sy(float *sx, float *sy, int x, int y);
-void			put_pixel_to_img(t_env *e, int x, int y, int i);
+void			put_pixel_to_img(t_env *e, int x, int y);
 void			get_normal(t_vec3 *v, t_obj *o, t_vec3 *vec);
 int				solve_equation(double a, double b, double c, double *rslt);
 
@@ -161,8 +153,6 @@ int				solve_equation(double a, double b, double c, double *rslt);
 ** ft_utils2.c
 */
 void			get_cone_normal(t_vec3 *v, t_obj *o, t_vec3 *vec);
-void			get_sx_sy_aliasing2(float *sx, float *sy, int xy[2],
-				int axy[2]);
 void			get_sx_sy_aliasing(float *sx, float *sy, int xy[2], int axy[2]);
 
 /*

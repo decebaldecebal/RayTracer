@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="RayTracerC++" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/RayTracerC++" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/RayTracerC++" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="ft_color.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ft_free.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ft_intersect.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ft_read_file.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ft_read_objects.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ft_read_utils.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ft_render.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ft_render2.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ft_scene.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ft_scene2.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ft_utils.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ft_utils2.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ft_vector.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ft_vector_math.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="main.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="objects.h" />
+		<Unit filename="raytracer.h" />
+		<Unit filename="scenes/scene" />
+		<Unit filename="scenes/scene2" />
+		<Unit filename="scenes/scene3" />
+		<Unit filename="scenes/scene4" />
+		<Unit filename="scenes/scene5" />
+		<Unit filename="scenes/scene6" />
+		<Unit filename="utils/ft_strsplit.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="utils/ft_strsub.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="utils/get_next_line.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="utils/utils.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

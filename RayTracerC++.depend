@@ -1,0 +1,137 @@
+# depslib dependency file v1.0
+1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_color.c
+	"raytracer.h"
+
+1426447480 f:\programe\codeblocks\workspace\raytracerc++\raytracer.h
+	"objects.h"
+	<iostream>
+	<iomanip>
+	<fstream>
+	<sstream>
+	<vector>
+	<cmath>
+	<limits>
+	<string.h>
+	<unistd.h>
+	<stdlib.h>
+	<stdio.h>
+	<time.h>
+	<fcntl.h>
+
+1426102764 f:\programe\codeblocks\workspace\raytracerc++\objects.h
+	"utils/utils.h"
+
+1426443592 f:\programe\codeblocks\workspace\raytracerc++\utils\utils.h
+	<unistd.h>
+	<stdlib.h>
+
+1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_free.c
+	"raytracer.h"
+
+1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_intersect.c
+	"raytracer.h"
+
+1426102168 source:f:\programe\codeblocks\workspace\raytracerc++\ft_read_file.c
+	"raytracer.h"
+
+1426102241 source:f:\programe\codeblocks\workspace\raytracerc++\ft_read_objects.c
+	"raytracer.h"
+
+1426102789 source:f:\programe\codeblocks\workspace\raytracerc++\ft_read_utils.c
+	"raytracer.h"
+
+1426102799 source:f:\programe\codeblocks\workspace\raytracerc++\ft_render.c
+	"raytracer.h"
+
+1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_render2.c
+	"raytracer.h"
+
+1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_scene.c
+	"raytracer.h"
+
+1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_scene2.c
+	"raytracer.h"
+
+1426102829 source:f:\programe\codeblocks\workspace\raytracerc++\ft_utils.c
+	"raytracer.h"
+
+1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_utils2.c
+	"raytracer.h"
+
+1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_vector.c
+	"raytracer.h"
+
+1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_vector_math.c
+	"raytracer.h"
+
+1426103426 source:f:\programe\codeblocks\workspace\raytracerc++\main.c
+	"raytracer.h"
+
+1426102863 source:f:\programe\codeblocks\workspace\raytracerc++\utils\ft_strsplit.c
+	<stdio.h>
+
+1426102952 source:f:\programe\codeblocks\workspace\raytracerc++\utils\ft_strsub.c
+	"utils.h"
+
+1426101979 source:f:\programe\codeblocks\workspace\raytracerc++\utils\get_next_line.c
+	"utils.h"
+	<stdlib.h>
+	<unistd.h>
+
+1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_color.cpp
+	"raytracer.h"
+
+1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_free.cpp
+	"raytracer.h"
+
+1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_intersect.cpp
+	"raytracer.h"
+
+1426447331 source:f:\programe\codeblocks\workspace\raytracerc++\ft_read_file.cpp
+	"raytracer.h"
+
+1426447436 source:f:\programe\codeblocks\workspace\raytracerc++\ft_read_objects.cpp
+	"raytracer.h"
+
+1426447476 source:f:\programe\codeblocks\workspace\raytracerc++\ft_read_utils.cpp
+	"raytracer.h"
+
+1426443551 source:f:\programe\codeblocks\workspace\raytracerc++\ft_render.cpp
+	"raytracer.h"
+
+1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_render2.cpp
+	"raytracer.h"
+
+1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_scene.cpp
+	"raytracer.h"
+
+1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_scene2.cpp
+	"raytracer.h"
+
+1426448530 source:f:\programe\codeblocks\workspace\raytracerc++\ft_utils.cpp
+	"raytracer.h"
+
+1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_utils2.cpp
+	"raytracer.h"
+
+1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_vector.cpp
+	"raytracer.h"
+
+1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_vector_math.cpp
+	"raytracer.h"
+
+1426448374 source:f:\programe\codeblocks\workspace\raytracerc++\main.cpp
+	"raytracer.h"
+
+1426103859 source:f:\programe\codeblocks\workspace\raytracerc++\utils\ft_strsplit.cpp
+	"utils.h"
+	<stdio.h>
+
+1426102952 source:f:\programe\codeblocks\workspace\raytracerc++\utils\ft_strsub.cpp
+	"utils.h"
+
+1426101979 source:f:\programe\codeblocks\workspace\raytracerc++\utils\get_next_line.cpp
+	"utils.h"
+	<stdlib.h>
+	<unistd.h>
+
