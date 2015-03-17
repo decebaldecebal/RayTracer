@@ -30,6 +30,8 @@
 # include <time.h>
 # include <fcntl.h>
 
+# include <thread>
+
 using namespace std;
 
 # define WIN_WIDTH 1280
@@ -50,6 +52,12 @@ using namespace std;
 */
 # define ANTIALIASING 4
 
+/*
+** How many concurrent threads to use during rendering.
+** It is highly recommended to match this with your processor core number for optimum render time.
+*/
+# define THREADS 2
+
 # define TRACE_DEPTH 4
 # define AMB_LIGHT 0.4
 
@@ -60,9 +68,7 @@ typedef struct	s_env
 {
 	float		aliasingsq;
 	int         totpixels;
-	t_color		*color;
 	t_color     *img;
-	t_ray		*ray;
 	t_obj		**objs;
 	t_light		**lights;
 	t_camera	*cam;
@@ -105,17 +111,15 @@ t_mat			*read_material(FILE *f);
 /*
 ** ft_render.c
 */
-t_obj			*ray_trace(t_env *e, int depth, float refrind, double *dist);
-void			draw_scene(t_env *e);
+t_obj			*ray_trace(t_env *e, t_ray *ray, t_color *color, int depth, float refrind, double *dist);
+void			draw_scene(t_env *e, int y, int endy);
 
 /*
 ** ft_render2.c
 */
-void			calculate_reflection(t_env *e, t_vec3 *pi, t_obj *temp,
-				int depth);
-void			calculate_refraction(t_env *e, t_vec3 *pi, t_obj *temp,
-				double par[3]);
-t_obj			*apply_antialiasing(t_env *e, int x, int y, double *dist);
+void			calculate_reflection(t_env *e, t_ray *ray, t_color *color, t_vec3 *pi, t_obj *temp, float refrind, int depth);
+void			calculate_refraction(t_env *e, t_ray *ray, t_color *color, t_vec3 *pi, t_obj *temp, float refrind, int depth, int result);
+t_obj			*apply_antialiasing(t_env *e, t_color *color, int x, int y, double *dist);
 
 /*
 ** ft_scene.c
@@ -145,7 +149,6 @@ int				intersect_primitive(t_obj *obj, t_ray *ray, double *dist);
 */
 void			mem_error(void);
 void			get_sx_sy(float *sx, float *sy, int x, int y);
-void			put_pixel_to_img(t_env *e, int x, int y);
 void			get_normal(t_vec3 *v, t_obj *o, t_vec3 *vec);
 int				solve_equation(double a, double b, double c, double *rslt);
 
@@ -153,7 +156,7 @@ int				solve_equation(double a, double b, double c, double *rslt);
 ** ft_utils2.c
 */
 void			get_cone_normal(t_vec3 *v, t_obj *o, t_vec3 *vec);
-void			get_sx_sy_aliasing(float *sx, float *sy, int xy[2], int axy[2]);
+void			get_sx_sy_aliasing(float *sx, float *sy, int x, int y, int tx, int ty);
 
 /*
 ** ft_vector.c
@@ -178,11 +181,12 @@ void			project_vector(t_vec3 *vec, t_vec3 *vec1, t_vec3 *vec2);
 */
 void			check_color(t_color *c);
 void			set_color(t_color *c, int r, int g, int b);
-void			set_color_mat(t_color *c, float value, t_color mat, t_color l);
+void			put_pixel_to_img(t_env *e, t_color *color, int x, int y);
 
 /*
 ** ft_free.c
 */
 void			free_char_array(char ***array);
+void            free_ray(t_ray **ray);
 
 #endif

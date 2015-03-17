@@ -97,9 +97,10 @@ t_mat		*new_material(t_color *c, float diff, float refl, float refr[2])
 int			main()
 {
 	t_env	e;
-	int dpi = 72;
 	char filein[50];
 	char fileout[50];
+    std::clock_t start;
+    std::thread t[THREADS];
 
     e.objs = NULL;
     e.lights = NULL;
@@ -110,20 +111,21 @@ int			main()
     read_file(&e, filein);
     if (!e.objs)
         mem_error();
-    e.color = (t_color *)malloc(sizeof(t_color));
-    if (!e.color)
-        mem_error();
     e.img = (t_color *)malloc(sizeof(t_color) * (WIN_WIDTH * WIN_HEIGHT));
     if (!e.img)
         mem_error();
     cout<<"Output to:\n";
     cin>>fileout;
     cout<<endl;
+    start = std::clock();
     printf("Rendering...\n");
-    draw_scene(&e);
+    for (int i = 0;i < THREADS;i++)
+        t[i] = std::thread(draw_scene, &e, WIN_HEIGHT / THREADS * i, WIN_HEIGHT / THREADS * (i + 1));
+    for (int i = 0;i < THREADS;i++)
+        t[i].join();
     if (!strstr(fileout, ".bmp"))
         strcat(fileout, ".bmp");
-    cout<<"Rendering complete.Imaged saved to: "<<fileout<<endl;
+    cout<<"\nRendering complete in "<<(double)(std::clock() - start ) / (double) CLOCKS_PER_SEC<<" seconds.\nImaged saved to: "<<fileout<<endl;
     savebmp(fileout, WIN_WIDTH, WIN_HEIGHT, 72, e.img);
 	return (0);
 }

@@ -39,17 +39,6 @@ void	get_sx_sy(float *sx, float *sy, int x, int y)
 	}
 }
 
-void	put_pixel_to_img(t_env *e, int x, int y)
-{
-    int i;
-    i = (WIN_HEIGHT - y - 1) * WIN_WIDTH + x;
-
-	check_color(e->color);
-	e->img[i].r = e->color->r;
-	e->img[i].g = e->color->g;
-	e->img[i].b = e->color->b;
-}
-
 void	get_normal(t_vec3 *v, t_obj *o, t_vec3 *vec)
 {
 	t_vec3	temp;

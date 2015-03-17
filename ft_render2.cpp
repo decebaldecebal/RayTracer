@@ -12,109 +12,99 @@
 
 #include "raytracer.h"
 
-void		calculate_reflection(t_env *e, t_vec3 *pi, t_obj *temp, int depth)
+void		calculate_reflection(t_env *e, t_ray *ray, t_color *color, t_vec3 *pi, t_obj *temp, float refrind, int depth)
 {
-	double	rd[2];
+    float   refl;
+    double   dist;
+    t_ray   *tray;
+    t_color tcolor;
 	t_vec3	norm;
 	t_vec3	vec;
 	t_vec3	vec2;
-	t_color	c;
 
-	rd[0] = temp->mat->refl;
-	if (rd[0] > 0.0f && depth < TRACE_DEPTH)
+	refl = temp->mat->refl;
+	if (refl > 0.0f && depth < TRACE_DEPTH)
 	{
-		set_color(&c, e->color->r, e->color->g, e->color->b);
-		set_color(e->color, 0, 0, 0);
 		get_normal(&norm, temp, pi);
-		substract_vector(&vec, e->ray->dir, multiply_vector_value(&vec,
-					&norm, 2.0f * vector_dot(e->ray->dir, &norm)));
-		if (e->ray)
-			free(e->ray);
-		e->ray = new_ray(add_vector(&vec2, pi, multiply_vector_value(&vec2,
-						&vec, EPSILON)), &vec);
-		ray_trace(e, depth + 1, 1.0f, &rd[1]);
-		e->color->r = c.r + rd[0] * e->color->r * temp->mat->color.r / 255;
-		e->color->g = c.g + rd[0] * e->color->g * temp->mat->color.g / 255;
-		e->color->b = c.b + rd[0] * e->color->b * temp->mat->color.b / 255;
+		substract_vector(&vec, ray->dir, multiply_vector_value(&vec, &norm, 2.0f * vector_dot(ray->dir, &norm)));
+		tray = new_ray(add_vector(&vec2, pi, multiply_vector_value(&vec2, &vec, EPSILON)), &vec);
+        set_color(&tcolor, 0, 0, 0);
+		ray_trace(e, tray, &tcolor, depth + 1, refrind, &dist);
+		color->r += refl * tcolor.r * temp->mat->color.r / 255;
+		color->g += refl * tcolor.g * temp->mat->color.g / 255;
+		color->b += refl * tcolor.b * temp->mat->color.b / 255;
+		if (tray)
+            free(tray);
 	}
 }
 
-static void	set_color_aux(t_env *e, t_local *l, t_obj *temp)
+void		calculate_refraction(t_env *e, t_ray *ray, t_color *color, t_vec3 *pi, t_obj *temp, float refrind, int depth, int result)
 {
-	set_color(&l->c[1],
-			expf(temp->mat->color.r * 0.15f * (-l->nd[1])),
-			expf(temp->mat->color.g * 0.15f * (-l->nd[1])),
-			expf(temp->mat->color.b * 0.15f * (-l->nd[1])));
-	set_color(e->color,
-			l->c[0].r + e->color->r * l->c[1].r,
-			l->c[0].g + e->color->g * l->c[1].g,
-			l->c[0].b + e->color->b * l->c[1].b);
-}
+    float   refr;
+    float   rindex;
+    float   n;
+    t_vec3  norm;
+    t_vec3  vec;
+    float   cosI;
+    float   cosT2;
+    double   dist;
+    t_color tcolor;
+    t_color trans;
+    t_ray   *tray;
 
-static void	add_vector_aux(t_env *e, t_local *l)
-{
-	add_vector(&l->vec[1],
-			multiply_vector_value(&l->vec[1], e->ray->dir, l->nd[0]),
-			multiply_vector_value(&l->vec[1], &l->vec[0], l->nd[0] * l->cos[0] -
-				sqrtf(l->cos[1])));
-}
-
-void		calculate_refraction(t_env *e, t_vec3 *pi, t_obj *temp,
-		double par[3])
-{
-	t_local l;
-
-	l.refr[0] = temp->mat->refr;
-	if (l.refr[0] > 0.0f && par[0] < TRACE_DEPTH)
+	refr = temp->mat->refr;
+	if (refr > 0.0f && depth < TRACE_DEPTH)
 	{
-		l.refr[1] = temp->mat->refrind;
-		l.nd[0] = par[1] / l.refr[1];
-		get_normal(&l.vec[0], temp, pi);
-		multiply_vector_value(&l.vec[0], &l.vec[0], par[2]);
-		l.cos[0] = -vector_dot(&l.vec[0], e->ray->dir);
-		l.cos[1] = 1.0f - l.nd[0] * l.nd[0] * (1.0f - l.cos[0] * l.cos[0]);
-		if (l.cos[1] > 0.0f)
+		rindex = temp->mat->refrind;
+		n = refrind / rindex;
+		get_normal(&norm, temp, pi);
+		multiply_vector_value(&norm, &norm, result);
+		cosI = -vector_dot(&norm, ray->dir);
+		cosT2 = 1.0f - n * n * (1.0f - cosI * cosI);
+		if (cosT2 > 0.0f)
 		{
-			add_vector_aux(e, &l);
-			if (e->ray)
-				free(e->ray);
-			e->ray = new_ray(add_vector(&l.vec[2], pi,
-						multiply_vector_value(&l.vec[2], &l.vec[1], EPSILON)),
-					&l.vec[1]);
-			set_color(&l.c[0], e->color->r, e->color->g, e->color->b);
-			set_color(e->color, 0, 0, 0);
-			ray_trace(e, par[0] + 1, l.refr[1], &l.nd[1]);
-			set_color_aux(e, &l, temp);
+            add_vector(&vec, multiply_vector_value(&vec, ray->dir, n), multiply_vector_value(&norm, &norm, n * cosI - sqrtf(cosT2)));
+			tray = new_ray(add_vector(&norm, pi, multiply_vector_value(&norm, &vec, EPSILON)), &vec);
+            set_color(&tcolor, 0, 0, 0);
+			ray_trace(e, tray, &tcolor, depth + 1, rindex, &dist);
+			set_color(&trans, temp->mat->color.r * 0.15f * (-dist), temp->mat->color.g * 0.15f * (-dist), temp->mat->color.b * 0.15f * (-dist));
+            set_color(&trans, expf(trans.r), expf(trans.g), expf(trans.b));
+			color->r += tcolor.r * trans.r;
+			color->g += tcolor.g * trans.g;
+			color->b += tcolor.b * trans.b;
+			if (tray)
+                free(tray);
 		}
 	}
 }
 
-t_obj		*apply_antialiasing(t_env *e, int x, int y, double *dist)
+t_obj		*apply_antialiasing(t_env *e, t_color *color, int x, int y, double *dist)
 {
-	int		txy[2];
+	int		tx;
+	int     ty;
 	float	sx;
 	float	sy;
-	int		xy[2];
 	t_obj	*prim;
+	t_ray   *ray;
 
 	prim = NULL;
-	txy[0] = -1;
-	xy[0] = x;
-	xy[1] = y;
-	while (++txy[0] < ANTIALIASING)
+    tx = - ANTIALIASING / 2;
+	while (tx < ANTIALIASING / 2)
 	{
-		txy[1] = -1;
-		while (++txy[1] < ANTIALIASING)
+		ty = - ANTIALIASING / 2;
+		while (ty < ANTIALIASING / 2)
 		{
-			get_sx_sy_aliasing(&sx, &sy, xy, txy);
-			if (e->ray)
-				free(e->ray);
-			e->ray = make_ray(e, sx, sy);
-			prim = ray_trace(e, 1, 1.0f, dist);
+			get_sx_sy_aliasing(&sx, &sy, x, y, tx, ty);
+			ray = make_ray(e, sx, sy);
+			prim = ray_trace(e, ray, color, 1, 1.0f, dist);
+			if (ray)
+                free_ray(&ray);
+			ty++;
 		}
+		tx++;
 	}
-	e->color->r /= e->aliasingsq;
-	e->color->g /= e->aliasingsq;
-	e->color->b /= e->aliasingsq;
+	color->r /= e->aliasingsq;
+	color->g /= e->aliasingsq;
+	color->b /= e->aliasingsq;
 	return (prim);
 }

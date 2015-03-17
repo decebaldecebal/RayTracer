@@ -36,7 +36,7 @@ t_ray		*make_ray(t_env *e, float sx, float sy)
 		multiply_vector_value(dir, cam->camright, sx - 0.5),
 		multiply_vector_value(&temp, cam->camdown, sy - 0.5)));
 	norm_vector(dir);
-	return (new_ray(cam->campos, dir));
+	return (new_ray(create_vector(cam->campos->x, cam->campos->y, cam->campos->z), dir));
 }
 
 t_camera	*new_camera(t_vec3 *campos, t_vec3 *lookat)

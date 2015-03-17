@@ -2,7 +2,7 @@
 1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_color.c
 	"raytracer.h"
 
-1426447480 f:\programe\codeblocks\workspace\raytracerc++\raytracer.h
+1426631311 f:\programe\codeblocks\workspace\raytracerc++\raytracer.h
 	"objects.h"
 	<iostream>
 	<iomanip>
@@ -17,6 +17,7 @@
 	<stdio.h>
 	<time.h>
 	<fcntl.h>
+	<thread>
 
 1426102764 f:\programe\codeblocks\workspace\raytracerc++\objects.h
 	"utils/utils.h"
@@ -78,10 +79,10 @@
 	<stdlib.h>
 	<unistd.h>
 
-1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_color.cpp
+1426626790 source:f:\programe\codeblocks\workspace\raytracerc++\ft_color.cpp
 	"raytracer.h"
 
-1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_free.cpp
+1426628739 source:f:\programe\codeblocks\workspace\raytracerc++\ft_free.cpp
 	"raytracer.h"
 
 1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_intersect.cpp
@@ -96,22 +97,22 @@
 1426447476 source:f:\programe\codeblocks\workspace\raytracerc++\ft_read_utils.cpp
 	"raytracer.h"
 
-1426443551 source:f:\programe\codeblocks\workspace\raytracerc++\ft_render.cpp
+1426630278 source:f:\programe\codeblocks\workspace\raytracerc++\ft_render.cpp
 	"raytracer.h"
 
-1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_render2.cpp
+1426630282 source:f:\programe\codeblocks\workspace\raytracerc++\ft_render2.cpp
 	"raytracer.h"
 
 1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_scene.cpp
 	"raytracer.h"
 
-1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_scene2.cpp
+1426622388 source:f:\programe\codeblocks\workspace\raytracerc++\ft_scene2.cpp
 	"raytracer.h"
 
-1426448530 source:f:\programe\codeblocks\workspace\raytracerc++\ft_utils.cpp
+1426626723 source:f:\programe\codeblocks\workspace\raytracerc++\ft_utils.cpp
 	"raytracer.h"
 
-1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_utils2.cpp
+1426629307 source:f:\programe\codeblocks\workspace\raytracerc++\ft_utils2.cpp
 	"raytracer.h"
 
 1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_vector.cpp
@@ -120,7 +121,7 @@
 1426059852 source:f:\programe\codeblocks\workspace\raytracerc++\ft_vector_math.cpp
 	"raytracer.h"
 
-1426448374 source:f:\programe\codeblocks\workspace\raytracerc++\main.cpp
+1426630464 source:f:\programe\codeblocks\workspace\raytracerc++\main.cpp
 	"raytracer.h"
 
 1426103859 source:f:\programe\codeblocks\workspace\raytracerc++\utils\ft_strsplit.cpp

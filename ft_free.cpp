@@ -31,3 +31,13 @@ void		free_char_array(char ***array)
 	free(*array);
 	*array = NULL;
 }
+
+void        free_ray(t_ray **ray)
+{
+    free((*ray)->dir);
+    free((*ray)->ori);
+    (*ray)->dir = NULL;
+    (*ray)->ori = NULL;
+    free(*ray);
+    *ray = NULL;
+}

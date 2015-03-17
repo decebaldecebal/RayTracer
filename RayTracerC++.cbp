@@ -4,24 +4,28 @@
 	<Project>
 		<Option title="RayTracerC++" />
 		<Option pch_mode="2" />
-		<Option compiler="gcc" />
+		<Option compiler="gnu_gcc_c11_compiler" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/RayTracerC++" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="gcc" />
+				<Option compiler="gnu_gcc_c11_compiler" />
 				<Compiler>
+					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add option="-std=gnu++11" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/RayTracerC++" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
-				<Option compiler="gcc" />
+				<Option compiler="gnu_gcc_c11_compiler" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-std=c++11" />
+					<Add option="-std=gnu++11" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -29,8 +33,10 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-std=c++11" />
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add option="-std=gnu++11" />
 		</Compiler>
 		<Unit filename="ft_color.cpp">
 			<Option compilerVar="CC" />

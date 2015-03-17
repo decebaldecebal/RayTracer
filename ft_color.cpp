@@ -35,9 +35,13 @@ void	set_color(t_color *c, int r, int g, int b)
 	c->b = b;
 }
 
-void	set_color_mat(t_color *c, float value, t_color mat, t_color l)
+void	put_pixel_to_img(t_env *e, t_color *color, int x, int y)
 {
-	set_color(c, c->r + value * mat.r * l.r / 255,
-		c->g + value * mat.g * l.g / 255,
-		c->b + value * mat.b * l.b / 255);
+    int i;
+
+    i = (WIN_HEIGHT - y - 1) * WIN_WIDTH + x;
+	check_color(color);
+	e->img[i].r = color->r;
+	e->img[i].g = color->g;
+	e->img[i].b = color->b;
 }
