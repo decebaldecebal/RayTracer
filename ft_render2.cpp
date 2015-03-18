@@ -28,13 +28,17 @@ void		calculate_reflection(t_env *e, t_ray *ray, t_color *color, t_vec3 *pi, t_o
 		get_normal(&norm, temp, pi);
 		substract_vector(&vec, ray->dir, multiply_vector_value(&vec, &norm, 2.0f * vector_dot(ray->dir, &norm)));
 		tray = new_ray(add_vector(&vec2, pi, multiply_vector_value(&vec2, &vec, EPSILON)), &vec);
-        set_color(&tcolor, 0, 0, 0);
+		set_color(&tcolor, 0, 0, 0);
 		ray_trace(e, tray, &tcolor, depth + 1, refrind, &dist);
 		color->r += refl * tcolor.r * temp->mat->color.r / 255;
 		color->g += refl * tcolor.g * temp->mat->color.g / 255;
 		color->b += refl * tcolor.b * temp->mat->color.b / 255;
 		if (tray)
-            free(tray);
+            	{
+        	 	tray->dir = NULL;
+                	tray->ori = NULL;
+                	free(tray);
+            	}
 	}
 }
 
