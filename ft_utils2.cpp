@@ -30,6 +30,27 @@ void		get_cone_normal(t_vec3 *v, t_obj *o, t_vec3 *vec)
 	norm_vector(v);
 }
 
+static void	get_sx_sy(float *sx, float *sy, int x, int y)
+{
+	if (WIN_WIDTH > WIN_HEIGHT)
+	{
+		*sx = ((x + 0.5) / WIN_WIDTH) * ASPECT -
+			(((WIN_WIDTH - WIN_HEIGHT) / (float)WIN_HEIGHT) / 2);
+		*sy = ((WIN_HEIGHT - y) + 0.5) / WIN_HEIGHT;
+	}
+	else if (WIN_HEIGHT > WIN_WIDTH)
+	{
+		*sx = (x + 0.5) / (float)WIN_WIDTH;
+		*sy = (((WIN_HEIGHT - y) + 0.5) / WIN_HEIGHT) / ASPECT -
+			(((WIN_HEIGHT - WIN_WIDTH) / (float)WIN_WIDTH) / 2);
+	}
+	else
+	{
+		*sx = (x + 0.5) / WIN_WIDTH;
+		*sy = ((WIN_HEIGHT - y) + 0.5) / WIN_HEIGHT;
+	}
+}
+
 void		get_sx_sy_aliasing(float *sx, float *sy, int x, int y, int tx, int ty)
 {
 	if (ANTIALIASING == 1)
