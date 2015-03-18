@@ -188,5 +188,6 @@ void			put_pixel_to_img(t_env *e, t_color *color, int x, int y);
 */
 void			free_char_array(char ***array);
 void            free_ray(t_ray **ray);
+void            free_environment(t_env *e);
 
 #endif
