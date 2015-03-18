@@ -47,7 +47,6 @@ typedef struct	s_camera
 	t_vec3 *camdown;
 }				t_camera;
 
-int				get_next_line(int const fd, char **line);
 char		    *ft_strsub(char const *s, unsigned int start, size_t len);
 char		    **ft_strsplit(char const *s, char c);
 
