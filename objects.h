@@ -20,8 +20,7 @@ typedef enum       e_shape
 	plane,
 	sphere,
 	cyl,
-	cone,
-	light
+	cone
 }               t_shape;
 
 typedef struct	s_color
