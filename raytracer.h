@@ -148,7 +148,6 @@ int				intersect_primitive(t_obj *obj, t_ray *ray, double *dist);
 ** ft_utils.c
 */
 void			mem_error(void);
-void			get_sx_sy(float *sx, float *sy, int x, int y);
 void			get_normal(t_vec3 *v, t_obj *o, t_vec3 *vec);
 int				solve_equation(double a, double b, double c, double *rslt);
 
