@@ -32,7 +32,11 @@ static float	get_shade(t_env *e, t_vec3 *l_norm, t_vec3 *pi)
 		i++;
 	}
 	if (ray)
-        free(ray);
+	{
+		ray->dir = NULL;
+		ray->ori = NULL;
+        	free(ray);
+	}
 	return (1.0f);
 }
 
