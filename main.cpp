@@ -125,7 +125,8 @@ int			main()
         t[i].join();
     if (!strstr(fileout, ".bmp"))
         strcat(fileout, ".bmp");
-    cout<<"\nRendering complete in "<<(double)(std::clock() - start ) / (double) CLOCKS_PER_SEC<<" seconds.\nImaged saved to: "<<fileout<<endl;
     savebmp(fileout, WIN_WIDTH, WIN_HEIGHT, 72, e.img);
-	return (0);
+    cout<<"\nRendering complete in "<<(double)(std::clock() - start ) / (double) CLOCKS_PER_SEC<<" seconds.\nImaged saved to: "<<fileout<<endl;
+    free_environment(&e);
+    return (0);
 }
